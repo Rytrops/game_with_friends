@@ -1,10 +1,11 @@
 <h1>Welcome to <%= @user.username %>'s profile </h1>
 
-<p> Contact Info: <p>
-<p> Email Address: <%= @user.email_address %></p>
-<p> Steam Id: <%= @user.steam_id %> </p>
+<h2> Contact Info: </h2>
+<p> <b> Email Address: </b> <%= @user.email_address %></p>
+<p> <b>  Steam Id: </b> <%=  @user.steam_id %> </p>
 
 
+<li> <%= link_to "Return to index", root_path %> </li>
 
 <li><%= link_to "Delete User", user_path(@user),
                   method: :delete,
