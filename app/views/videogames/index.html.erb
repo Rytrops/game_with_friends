@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Videogames</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Game </th>
+      <th>Name</th>
+      <th>Developer</th>
+      <th>Game type</th>
+      <th>Number of players</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @videogames.each do |videogame| %>
+      <tr>
+        <td><%= videogame.game_ %></td>
+        <td><%= videogame.name %></td>
+        <td><%= videogame.developer %></td>
+        <td><%= videogame.game_type %></td>
+        <td><%= videogame.number_of_players %></td>
+        <td><%= link_to 'Show', videogame %></td>
+        <td><%= link_to 'Edit', edit_videogame_path(videogame) %></td>
+        <td><%= link_to 'Destroy', videogame, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Videogame', new_videogame_path %>
