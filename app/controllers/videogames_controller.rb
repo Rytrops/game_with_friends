@@ -8,7 +8,6 @@ class VideogamesController < ApplicationController
 
   # GET /videogames/1 or /videogames/1.json
   def show
-    @videogame = User.find(params[:id])
   end
 
   # GET /videogames/new
@@ -65,6 +64,6 @@ class VideogamesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def videogame_params
-      params.require(:videogame).permit(:game_, :name, :developer, :game_type, :number_of_players)
+      params.require(:videogame).permit(:game_name, :developer, :number_of_players)
     end
 end
