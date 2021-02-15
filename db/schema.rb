@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2021_02_15_221806) do
 
   create_table "users_videogames", force: :cascade do |t|
     t.integer "user_id"
-    t.integer "videogames_id"
+    t.integer "videogame_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
