@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-  resources :videogames
-  root "users#index"
 
+  resources :videogames
   resources :users
+
+  root "users#index"
 
 end
