@@ -3,20 +3,16 @@ require 'rails_helper'
 RSpec.describe "videogames/show", type: :view do
   before(:each) do
     @videogame = assign(:videogame, Videogame.create!(
-      game_: "Game ",
-      name: "Name",
+      game_name: "Game Name",
       developer: "Developer",
-      game_type: "Game Type",
-      number_of_players: ""
+      number_of_players: 2
     ))
   end
 
   it "renders attributes in <p>" do
     render
-    expect(rendered).to match(/Game /)
-    expect(rendered).to match(/Name/)
+    expect(rendered).to match(/Game Name/)
     expect(rendered).to match(/Developer/)
-    expect(rendered).to match(/Game Type/)
-    expect(rendered).to match(//)
+    expect(rendered).to match(/2/)
   end
 end

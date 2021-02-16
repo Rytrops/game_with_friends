@@ -4,28 +4,22 @@ RSpec.describe "videogames/index", type: :view do
   before(:each) do
     assign(:videogames, [
       Videogame.create!(
-        game_: "Game ",
-        name: "Name",
+        game_name: "Game Name",
         developer: "Developer",
-        game_type: "Game Type",
-        number_of_players: ""
+        number_of_players: 2
       ),
       Videogame.create!(
-        game_: "Game ",
-        name: "Name",
+        game_name: "Game Name",
         developer: "Developer",
-        game_type: "Game Type",
-        number_of_players: ""
+        number_of_players: 2
       )
     ])
   end
 
   it "renders a list of videogames" do
     render
-    assert_select "tr>td", text: "Game ".to_s, count: 2
-    assert_select "tr>td", text: "Name".to_s, count: 2
+    assert_select "tr>td", text: "Game Name".to_s, count: 2
     assert_select "tr>td", text: "Developer".to_s, count: 2
-    assert_select "tr>td", text: "Game Type".to_s, count: 2
-    assert_select "tr>td", text: "".to_s, count: 2
+    assert_select "tr>td", text: 2.to_s, count: 2
   end
 end
