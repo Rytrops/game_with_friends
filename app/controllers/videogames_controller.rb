@@ -8,6 +8,7 @@ class VideogamesController < ApplicationController
 
   # GET /videogames/1 or /videogames/1.json
   def show
+    @videogame = Videogame.find(params[:id])
   end
 
   # GET /videogames/new
