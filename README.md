@@ -46,12 +46,26 @@ Install rails project gems
 
 ```bundle install```
 
+## Set up Database
+
+```bundle exec rails db:migrate```
+
+## Set up Javascript
+
+Install npm with nvm.  First install nvm: [https://github.com/nvm-sh/nvm](https://github.com/nvm-sh/nvm)
+
+```npm install -g npm```
+
+```npm install yarn```
+
+```yarn```
 
 ## Run Server
 
 ```rails s```
 
 Open at [http://127.0.0.1:3000](http://127.0.0.1:3000)
+
 
 
 
