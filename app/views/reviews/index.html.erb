@@ -11,6 +11,8 @@
 
   <tbody>
     <% @reviews.each do |review| %>
+      <tr><td><%= review.title %></td></tr>
+      <tr><td><%= review.body %></td></tr>
       <tr>
         <td><%= link_to 'Show', review %></td>
         <td><%= link_to 'Edit', edit_review_path(review) %></td>

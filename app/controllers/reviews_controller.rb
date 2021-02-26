@@ -21,6 +21,8 @@ class ReviewsController < ApplicationController
 
   # POST /reviews or /reviews.json
   def create
+    # match on video game name
+    video_game_name = params["review"]["video_game_name"]
     @review = Review.new(review_params)
 
     respond_to do |format|
@@ -64,6 +66,6 @@ class ReviewsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def review_params
-      params.fetch(:review, {})
+      params.require(:review).permit(:title, :body)
     end
 end
