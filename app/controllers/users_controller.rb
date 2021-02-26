@@ -1,4 +1,3 @@
-
 class UsersController < ApplicationController
 
 
@@ -23,6 +22,10 @@ class UsersController < ApplicationController
             render :new
         end
     end
+    
+    def edit
+        @user = User.find(params[:id])
+    end
 
     def update
         @user = User.find(params[:id])
@@ -40,9 +43,27 @@ class UsersController < ApplicationController
         redirect_to root_path
     end
 
+    def add_new_game
+        @user = User.find(params[:user_id])
+        @videogames = Videogame.all
+    end
+
+    def save_new_game_to_user
+        user = User.find(save_new_game_to_user_params[:user_id])
+        game = Videogame.find(save_new_game_to_user_params[:game_id])
+        user.videogames << game
+
+        redirect_to user_path(user)
+    end
+
     private
 
     def user_params
         params.require(:user).permit(:username, :email_address, :steam_id)
     end
+
+    def save_new_game_to_user_params
+        params.permit(:game_id, :user_id)
+    end
+
 end

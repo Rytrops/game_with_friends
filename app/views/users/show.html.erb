@@ -6,6 +6,9 @@
 
 
 <li> <%= link_to "Return to index", root_path %> </li>
+<li> <%= link_to "Add Game to Library", user_add_game_path(@user) %> </li>
+
+<li><%= link_to "Edit User", edit_user_path(@user) %>
 
 <li><%= link_to "Delete User", user_path(@user),
                   method: :delete,

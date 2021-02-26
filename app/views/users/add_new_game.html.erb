@@ -1,0 +1,7 @@
+<h1>Add a new game to <%=  @user.username.capitalize %>'s libary </h1>
+
+
+<%= form_with url: user_save_game_path do |form| %>
+    <%= form.select :game_id, @videogames.map { |game| [game.game_name, game.id] } %>
+    <%= form.submit  %>
+    <% end %>
