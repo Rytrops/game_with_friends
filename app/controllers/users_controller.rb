@@ -56,6 +56,14 @@ class UsersController < ApplicationController
         redirect_to user_path(user)
     end
 
+    def remove_game_from_user_library
+        user = User.find(save_new_game_to_user_params[:user_id])
+        game = Videogame.find(save_new_game_to_user_params[:game_id])
+        user.videogames.delete(Videogame.find(save_new_game_to_user_params[:game_id]))
+
+        redirect_to user_path(user)
+    end
+
     private
 
     def user_params

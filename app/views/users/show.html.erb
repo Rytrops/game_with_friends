@@ -15,15 +15,16 @@
                   data: { confirm: "Are you sure?" } %></li>
 <table>
 <tr>
-<th>Game Name</th>
+<th>Game Name</th> 
 <th>Developer </th> 
 <th>Number of Players</th>
 </tr>
 <% @user.videogames.each do |game| %>
     <tr>
-    <td><%= game.game_name %></td>
+    <td><%= link_to "#{game.game_name}", videogame_path(game) %></td>
     <td><%= game.developer %></td>
     <td><%= game.number_of_players %></td>
+    <td><%= button_to "Remove from library", user_remove_game_path(@user), params: {game_id: game.id}, data: {confirm: "Are you sure?"} %></td>
     </tr>
 <%end%>
 
