@@ -59,8 +59,16 @@ class UsersController < ApplicationController
     def remove_game_from_user_library
         user = User.find(save_new_game_to_user_params[:user_id])
         game = Videogame.find(save_new_game_to_user_params[:game_id])
-        user.videogames.delete(Videogame.find(save_new_game_to_user_params[:game_id]))
+        user.videogames.delete(game)
 
+        redirect_to user_path(user)
+    end
+
+    def create_and_save_game_to_user_library
+        params = create_and_save_game_to_user_library_params
+        game = Videogame.create(game_name: params[:game_name], developer: params[:developer], number_of_players: params[:number_of_players])
+        user = User.find(params[:user_id])
+        user.videogames << game
         redirect_to user_path(user)
     end
 
@@ -72,6 +80,10 @@ class UsersController < ApplicationController
 
     def save_new_game_to_user_params
         params.permit(:game_id, :user_id)
+    end
+
+    def create_and_save_game_to_user_library_params
+        params.permit(:user_id, :game_name, :developer, :number_of_players)
     end
 
 end
