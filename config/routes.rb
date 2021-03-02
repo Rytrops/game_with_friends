@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :reviews
   resources :videogames
   resources :users do 
     get 'add_game', to: 'users#add_new_game'
