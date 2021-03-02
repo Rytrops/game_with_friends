@@ -67,10 +67,18 @@ class UsersController < ApplicationController
 
     def create_and_save_game_to_user_library
         params = create_and_save_game_to_user_library_params
-        game = Videogame.create(game_name: params[:game_name], developer: params[:developer], number_of_players: params[:number_of_players])
+        videogame = Videogame.new(game_name: params[:game_name], developer: params[:developer], number_of_players: params[:number_of_players])
         user = User.find(params[:user_id])
-        user.videogames << game
-        redirect_to user_path(user)
+        
+        if videogame.save
+            user.videogames << videogame
+            redirect_to user_path(user)
+        else
+            @videogames = Videogame.all
+            @user = user
+            @videogame = videogame
+            render :add_new_game
+        end
     end
 
     private
