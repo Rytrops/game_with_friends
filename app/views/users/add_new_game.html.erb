@@ -1,0 +1,33 @@
+<h1>Add a new game to <%=  @user.username.capitalize %>'s libary </h1>
+
+<h2> Add existing game </h2>
+
+<%= form_with url: user_save_game_path do |form| %>
+    <%= form.select :game_id, @videogames.map { |game| [game.game_name, game.id] } %>
+    <%= form.submit  %>
+<% end %>
+
+
+<h2> Add new game </h2>
+<%= form_with(url: user_create_and_save_game_path) do |form| %>
+    
+    
+    <div class="field">
+        <%= form.label :game_name %>
+        <%= form.text_field :game_name %>
+    </div>
+    
+    <div class="field">
+        <%= form.label :developer %>
+        <%= form.text_field :developer %>
+    </div>
+    
+    <div class="field">
+        <%= form.label :number_of_players %>
+        <%= form.number_field :number_of_players %>
+    </div>
+    
+    <div class="actions">
+        <%= form.submit %>
+    </div>
+<% end %>
