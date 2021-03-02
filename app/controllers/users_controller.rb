@@ -46,6 +46,7 @@ class UsersController < ApplicationController
     def add_new_game
         @user = User.find(params[:user_id])
         @videogames = Videogame.all
+        @videogame = Videogame.new
     end
 
     def save_new_game_to_user
