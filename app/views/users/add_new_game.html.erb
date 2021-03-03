@@ -10,21 +10,30 @@
 
 <h2> Add new game </h2>
 <%= form_with(url: user_create_and_save_game_path) do |form| %>
-    
+    <% if @videogame.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@videogame.errors.count, "error") %> prohibited this videogame from being saved:</h2>
+      <ul>
+        <% @videogame.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
     
     <div class="field">
         <%= form.label :game_name %>
-        <%= form.text_field :game_name %>
+        <%= form.text_field :game_name, value: @videogame.game_name %>
     </div>
     
     <div class="field">
         <%= form.label :developer %>
-        <%= form.text_field :developer %>
+        <%= form.text_field :developer, value: @videogame.developer  %>
     </div>
     
     <div class="field">
         <%= form.label :number_of_players %>
-        <%= form.number_field :number_of_players %>
+        <%= form.number_field :number_of_players, value: @videogame.number_of_players %>
     </div>
     
     <div class="actions">
