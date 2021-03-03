@@ -84,7 +84,7 @@ class UsersController < ApplicationController
     private
 
     def user_params
-        params.require(:user).permit(:username, :email_address, :steam_id)
+        params.require(:user).permit(:username, :email, :steam_id)
     end
 
     def save_new_game_to_user_params

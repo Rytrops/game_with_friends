@@ -7,6 +7,6 @@ class User < ApplicationRecord
     has_many :videogames, through: :users_videogames
 
     validates :username, presence: true
-    validates :email_address, presence: true                    
+    validates :email, presence: true                    
 
 end
