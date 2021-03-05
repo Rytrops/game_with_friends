@@ -1,15 +1,21 @@
-class UsersController < ApplicationController
+class Users::RegistrationsController < Devise::RegistrationsController
 
-    def index
-        @users = User.all
+    def new
+        @user = User.new
+        
     end
 
+    def create
+        
+        @user = User.new(user_params)
+
+        if @user.save
+            redirect_to @user
+        else
+            render :new
+        end
+    end
     
-
-    def show
-        @user = User.find(params[:id])
-    end
-
     def edit
         @user = User.find(params[:id])
     end
@@ -30,11 +36,7 @@ class UsersController < ApplicationController
         redirect_to root_path
     end
 
-    def add_new_game
-        # @user = User.find(params[:user_id])
-        @videogames = Videogame.all
-        @videogame = Videogame.new
-    end
+   
 
     def save_new_game_to_user
         user = User.find(save_new_game_to_user_params[:user_id])
@@ -81,4 +83,5 @@ class UsersController < ApplicationController
     def create_and_save_game_to_user_library_params
         params.permit(:user_id, :game_name, :developer, :number_of_players)
     end
+
 end
