@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+    before_action :authenticate_user!, except: [:index]
 
     def index
         @users = User.all
@@ -32,6 +33,7 @@ class UsersController < ApplicationController
 
     def add_new_game
         # @user = User.find(params[:user_id])
+        @user = current_user
         @videogames = Videogame.all
         @videogame = Videogame.new
     end
