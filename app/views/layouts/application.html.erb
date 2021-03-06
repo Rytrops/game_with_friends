@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>GameWithFriends</title>
+  <%= link_to "Sign In", new_user_session_path %> <%= link_to "Sign Out", destroy_user_session_path, method: :delete %> 
+  
+  <% if user_signed_in? %>
+  <h1> Current User: <%=current_user.username%> </h1>
+  <% end %>
+  
+  
+  <title>GameWithFriends</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -9,6 +16,9 @@
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
+
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
 
   <body>
     <%= yield %>

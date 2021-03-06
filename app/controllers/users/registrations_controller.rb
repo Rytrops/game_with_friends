@@ -1,14 +1,20 @@
-class UsersController < ApplicationController
-    before_action :authenticate_user!, except: [:index]
+class Users::RegistrationsController < Devise::RegistrationsController
 
-    def index
-        @users = User.all
+    def new
+        @user = User.new
     end
 
-    def show
-        @user = User.find(params[:id])
-    end
+    def create
+        
+        @user = User.new(user_params)
 
+        if @user.save
+            redirect_to @user
+        else
+            render :new
+        end
+    end
+    
     def edit
         @user = User.find(params[:id])
     end
@@ -29,18 +35,10 @@ class UsersController < ApplicationController
         redirect_to root_path
     end
 
-    def add_new_game
-        # @user = User.find(params[:user_id])
-        @user = current_user
-        @videogames = Videogame.all
-        @videogame = Videogame.new
-    end
-
     def save_new_game_to_user
         user = User.find(save_new_game_to_user_params[:user_id])
         game = Videogame.find(save_new_game_to_user_params[:game_id])
         user.videogames << game
-
         redirect_to user_path(user)
     end
 
@@ -48,7 +46,6 @@ class UsersController < ApplicationController
         user = User.find(save_new_game_to_user_params[:user_id])
         game = Videogame.find(save_new_game_to_user_params[:game_id])
         user.videogames.delete(game)
-
         redirect_to user_path(user)
     end
 

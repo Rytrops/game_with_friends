@@ -8,9 +8,9 @@
     </div>
     <br>
     <div>
-      <%= form.label :email_address %>
-      <%= form.email_field :email_address %><br>
-      <% user.errors.full_messages_for(:email_address).each do |message| %>
+      <%= form.label :email %>
+      <%= form.email_field :email %><br>
+      <% user.errors.full_messages_for(:email).each do |message| %>
         <div><%= message %></div>
       <% end %>
     </div>
