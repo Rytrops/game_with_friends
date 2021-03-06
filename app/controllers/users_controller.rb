@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-    before_action :authenticate_user!, except: [:index]
+    before_action :authenticate_user!, except: [:index, :show]
+    before_action :correct_user, only: [:add_new_game, :edit, :update, :destroy, :remove_game_from_user_library]
 
     def index
         @users = User.all
@@ -32,8 +33,7 @@ class UsersController < ApplicationController
     end
 
     def add_new_game
-        # @user = User.find(params[:user_id])
-        @user = current_user
+        @user = User.find(params[:user_id])
         @videogames = Videogame.all
         @videogame = Videogame.new
     end
@@ -67,6 +67,14 @@ class UsersController < ApplicationController
             @user = user
             @videogame = videogame
             render :add_new_game
+        end
+    end
+
+    def correct_user
+        byebug
+        user_profile = User.find(params[:user_id])
+        if current_user != user_profile
+            redirect_to user_path(user_profile), notice: "Not Authorized to Edit This Profile"
         end
     end
 
