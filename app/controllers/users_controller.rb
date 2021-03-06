@@ -7,8 +7,6 @@ class UsersController < ApplicationController
         @users = User.all
     end
 
-    
-
     def show
         @user = User.find(params[:id])
         # @user = current_user
@@ -102,6 +100,5 @@ class UsersController < ApplicationController
         if current_user != user
             redirect_to user_path(user), notice: "Not Authorized to Edit This Profile"
         end
-
     end
 end
