@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
     before_action :authenticate_user!, except: [:index, :show]
-    before_action :correct_user, only: [:add_new_game, :edit, :update, :destroy, :remove_game_from_user_library]
-
+    before_action :correct_user_to_edit_library, only: [:add_new_game, :remove_game_from_user_library]
+    before_action :correct_user_to_edit_profile, only: [:edit, :update, :destroy]
+    
     def index
         @users = User.all
     end
@@ -10,15 +11,17 @@ class UsersController < ApplicationController
 
     def show
         @user = User.find(params[:id])
+        # @user = current_user
     end
 
     def edit
         @user = User.find(params[:id])
+        # @user = current_user
     end
 
     def update
         @user = User.find(params[:id])
-    
+        # @user = current_user
         if @user.update(user_params)
           redirect_to @user
         else
@@ -33,7 +36,8 @@ class UsersController < ApplicationController
     end
 
     def add_new_game
-        @user = User.find(params[:user_id])
+        # @user = User.find(params[:id])
+        @user = current_user
         @videogames = Videogame.all
         @videogame = Videogame.new
     end
@@ -70,12 +74,14 @@ class UsersController < ApplicationController
         end
     end
 
-    def correct_user
-        byebug
-        user_profile = User.find(params[:user_id])
-        if current_user != user_profile
-            redirect_to user_path(user_profile), notice: "Not Authorized to Edit This Profile"
-        end
+    def correct_user_to_edit_library
+        user_library_to_edit = User.find(params[:user_id])
+        check_user(user_library_to_edit)
+    end
+
+    def correct_user_to_edit_profile
+        user_profile_to_edit = User.find(params[:id])
+        check_user(user_profile_to_edit)
     end
 
     private
@@ -90,5 +96,12 @@ class UsersController < ApplicationController
 
     def create_and_save_game_to_user_library_params
         params.permit(:user_id, :game_name, :developer, :number_of_players)
+    end
+
+    def check_user(user)
+        if current_user != user
+            redirect_to user_path(user), notice: "Not Authorized to Edit This Profile"
+        end
+
     end
 end
