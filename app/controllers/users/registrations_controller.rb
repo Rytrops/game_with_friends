@@ -2,7 +2,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     def new
         @user = User.new
-        
     end
 
     def create
@@ -36,13 +35,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
         redirect_to root_path
     end
 
-   
-
     def save_new_game_to_user
         user = User.find(save_new_game_to_user_params[:user_id])
         game = Videogame.find(save_new_game_to_user_params[:game_id])
         user.videogames << game
-
         redirect_to user_path(user)
     end
 
@@ -50,7 +46,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
         user = User.find(save_new_game_to_user_params[:user_id])
         game = Videogame.find(save_new_game_to_user_params[:game_id])
         user.videogames.delete(game)
-
         redirect_to user_path(user)
     end
 
@@ -83,5 +78,4 @@ class Users::RegistrationsController < Devise::RegistrationsController
     def create_and_save_game_to_user_library_params
         params.permit(:user_id, :game_name, :developer, :number_of_players)
     end
-
 end
