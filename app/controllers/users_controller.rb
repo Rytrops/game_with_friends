@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
-    before_action :authenticate_user!, except: [:index]
-
+    before_action :authenticate_user!, except: [:index, :show]
+    before_action :correct_user_to_edit_library, only: [:add_new_game, :remove_game_from_user_library]
+    before_action :correct_user_to_edit_profile, only: [:edit, :update, :destroy]
+    
     def index
         @users = User.all
     end
@@ -10,12 +12,11 @@ class UsersController < ApplicationController
     end
 
     def edit
-        @user = User.find(params[:id])
+        @user = current_user
     end
 
     def update
-        @user = User.find(params[:id])
-    
+        @user = current_user
         if @user.update(user_params)
           redirect_to @user
         else
@@ -24,13 +25,12 @@ class UsersController < ApplicationController
     end
 
     def destroy
-        @user = User.find(params[:id])
+        @user = current_user
         @user.destroy
         redirect_to root_path
     end
 
     def add_new_game
-        # @user = User.find(params[:user_id])
         @user = current_user
         @videogames = Videogame.all
         @videogame = Videogame.new
@@ -68,6 +68,16 @@ class UsersController < ApplicationController
         end
     end
 
+    def correct_user_to_edit_library
+        user_library_to_edit = User.find(params[:user_id])
+        redirect_to user_path(user), notice: "Not Authorized to Edit This Profile" if !is_current_user?(user_library_to_edit) 
+    end
+
+    def correct_user_to_edit_profile
+        user_profile_to_edit = User.find(params[:id])
+        redirect_to user_path(user), notice: "Not Authorized to Edit This Profile" if !is_current_user?(user_profile_to_edit)
+    end
+
     private
 
     def user_params
@@ -80,5 +90,9 @@ class UsersController < ApplicationController
 
     def create_and_save_game_to_user_library_params
         params.permit(:user_id, :game_name, :developer, :number_of_players)
+    end
+
+    def is_current_user?(user)
+        current_user == user
     end
 end
