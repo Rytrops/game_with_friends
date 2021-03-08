@@ -6,6 +6,7 @@
 
 
 <li> <%= link_to "Return to index", root_path %> </li>
+<% if @looking_at_self %>
 <li> <%= link_to "Add Game to Library", user_add_game_path(@user) %> </li>
 
 <li><%= link_to "Edit User", edit_user_path(@user) %>
@@ -13,6 +14,7 @@
 <li><%= link_to "Delete User", user_path(@user),
                   method: :delete,
                   data: { confirm: "Are you sure?" } %></li>
+                  <% end %>
 <table>
 <tr>
 <th>Game Name</th>
@@ -24,7 +26,9 @@
     <td><%= link_to "#{game.game_name}", videogame_path(game) %></td>
     <td><%= game.developer %></td>
     <td><%= game.number_of_players %></td>
-    <td><%= button_to "Remove from library", user_remove_game_path(@user), params: {game_id: game.id}, data: {confirm: "Are you sure?"} %></td>
-    </tr>
+    <% if current_user == @user %>
+        <td> <%= button_to "Remove from library", user_remove_game_path(@user), params: {game_id: game.id}, data: {confirm: "Are you sure?"} %></td>
+    <% end %>
+        </tr>
 <%end%>
 </table>

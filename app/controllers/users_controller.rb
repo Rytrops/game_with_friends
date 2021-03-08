@@ -9,6 +9,7 @@ class UsersController < ApplicationController
 
     def show
         @user = User.find(params[:id])
+        @looking_at_self = is_current_user?
     end
 
     def edit
