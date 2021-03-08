@@ -9,17 +9,15 @@ class UsersController < ApplicationController
 
     def show
         @user = User.find(params[:id])
-        # @user = current_user
+        @looking_at_self = is_current_user?
     end
 
     def edit
-        @user = User.find(params[:id])
-        # @user = current_user
+        @user = current_user
     end
 
     def update
-        @user = User.find(params[:id])
-        # @user = current_user
+        @user = current_user
         if @user.update(user_params)
           redirect_to @user
         else
@@ -28,13 +26,12 @@ class UsersController < ApplicationController
     end
 
     def destroy
-        @user = User.find(params[:id])
+        @user = current_user
         @user.destroy
         redirect_to root_path
     end
 
     def add_new_game
-        # @user = User.find(params[:id])
         @user = current_user
         @videogames = Videogame.all
         @videogame = Videogame.new
@@ -74,12 +71,12 @@ class UsersController < ApplicationController
 
     def correct_user_to_edit_library
         user_library_to_edit = User.find(params[:user_id])
-        check_user(user_library_to_edit)
+        redirect_to user_path(user), notice: "Not Authorized to Edit This Profile" if !is_current_user?(user_library_to_edit) 
     end
 
     def correct_user_to_edit_profile
         user_profile_to_edit = User.find(params[:id])
-        check_user(user_profile_to_edit)
+        redirect_to user_path(user), notice: "Not Authorized to Edit This Profile" if !is_current_user?(user_profile_to_edit)
     end
 
     private
@@ -96,9 +93,7 @@ class UsersController < ApplicationController
         params.permit(:user_id, :game_name, :developer, :number_of_players)
     end
 
-    def check_user(user)
-        if current_user != user
-            redirect_to user_path(user), notice: "Not Authorized to Edit This Profile"
-        end
+    def is_current_user?(user)
+        current_user == user
     end
 end

@@ -35,8 +35,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
         redirect_to root_path
     end
 
-   
-
     def save_new_game_to_user
         user = User.find(save_new_game_to_user_params[:user_id])
         game = Videogame.find(save_new_game_to_user_params[:game_id])
@@ -48,7 +46,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
         user = User.find(save_new_game_to_user_params[:user_id])
         game = Videogame.find(save_new_game_to_user_params[:game_id])
         user.videogames.delete(game)
-
         redirect_to user_path(user)
     end
 
