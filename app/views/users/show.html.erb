@@ -6,7 +6,7 @@
 
 
 <li> <%= link_to "Return to index", root_path %> </li>
-<% if current_user == @user %>
+<% if @looking_at_self %>
 <li> <%= link_to "Add Game to Library", user_add_game_path(@user) %> </li>
 
 <li><%= link_to "Edit User", edit_user_path(@user) %>
