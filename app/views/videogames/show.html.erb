@@ -1,21 +1,14 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Game name:</strong>
-  <%= @videogame.game_name %>
-</p>
-
-<p>
-  <strong>Developer:</strong>
-  <%= @videogame.developer %>
-</p>
-
-<p>
-  <strong>Number of players:</strong>
-  <%= @videogame.number_of_players %>
-</p>
-
-<%= link_to 'Edit', edit_videogame_path(@videogame) %> |
-<%= link_to 'Back', videogames_path %> |
-<%= link_to 'Users Index', users_path %>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-4 mx-auto">
+        <div class="card card-signin my-5 border border-dark bg-light">
+          <div class="card-body">
+            <p class="card-text"> <strong>Game Name:</strong> <%= @videogame.game_name %> </p>
+            <p class="card-text"> <strong>Developer:</strong> <%= @videogame.developer %> </p>
+            <p class="card-text"> <strong>Number of players:</strong> <%= @videogame.number_of_players %></p>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
 

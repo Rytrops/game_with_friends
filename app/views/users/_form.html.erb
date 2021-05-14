@@ -1,34 +1,45 @@
-<%= form_with model: user do |form| %>
-    <div>
-      <%= form.label :username %>
-      <%= form.text_field :username %><br>
-      <% user.errors.full_messages_for(:username).each do |message| %>
-        <div><%= message %></div>
-      <% end %>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-4 mx-auto">
+        <div class="card card-signin my-5 border border-dark bg-light">
+          <div class="card-body">
+            <h5 class="card-title text-center">Edit User</h5>
+                  <div class="form-label-group">
+                    <%= form_with(model: user, :html => {:class => "form"}) do |form| %>
+                        <div class="form-control-group">
+                        
+                          <%= form.label :username %>
+                          <%= form.text_field :username, class: "form-control" %>
+                          <% user.errors.full_messages_for(:username).each do |message| %>
+                            <div><%= message %></div>
+                          <% end %>
+                        </div>
+                        <div class= "form-control-group">
+                          <%= form.label :email %>
+                          <%= form.email_field :email, class: "form-control" %>
+                          <% user.errors.full_messages_for(:email).each do |message| %>
+                            <div><%= message %></div>
+                          <% end %>
+                        </div>
+                        <div class= "form-control-group">
+                        <%= form.label :steam_id %>
+                        <%= form.text_field :steam_id, class: "form-control" %>
+                        <% user.errors.full_messages_for(:steam_id).each do |message| %>
+                          <div><%= message %></div>
+                        <% end %>
+                        </div>
+                      
+                        <div class="action">
+                          <%= form.submit "Update User", class: "btn btn-lg btn-primary btn-block text-uppercase" %>
+                        </div>
+                  <% end %>
+                  </form>
+        </div>
+      </div>
     </div>
-    <br>
-    <div>
-      <%= form.label :email %>
-      <%= form.email_field :email %><br>
-      <% user.errors.full_messages_for(:email).each do |message| %>
-        <div><%= message %></div>
-      <% end %>
-    </div>
-    <br>
-    <div>
-    <%= form.label :steam_id %>
-    <%= form.text_field :steam_id %><br>
-    <% user.errors.full_messages_for(:steam_id).each do |message| %>
-      <div><%= message %></div>
-    <% end %>
-    </div>
-  
-    <div>
-      <%= form.submit %>
-    </div>
+  </div>
+</div>
 
-    <br>
-<li> <%= link_to "Return to index", root_path %> </li>
 
 
-<% end %>
+

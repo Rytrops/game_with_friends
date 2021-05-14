@@ -1,34 +1,69 @@
-<h1>Welcome to <%= @user.username %>'s profile </h1>
-
-<h2> Contact Info: </h2>
-<p> <b> Email Address: </b> <%= @user.email %></p>
-<p> <b>  Steam Id: </b> <%=  @user.steam_id %> </p>
 
 
-<li> <%= link_to "Return to index", root_path %> </li>
-<% if @looking_at_self %>
-<li> <%= link_to "Add Game to Library", user_add_game_path(@user) %> </li>
+  
+<div class="container pb-5">  
+  <div class="row justify-content-center">
+    <div class= "col col-auto text-center border border-dark rounded bg-light">
+    <h1>Welcome to <%= @user.username %>'s profile </h1>
+    </div>
+  </div>
 
-<li><%= link_to "Edit User", edit_user_path(@user) %>
+  <div class="row justify-content-center">
+    <% if @looking_at_self %>
+        <div class="col-auto"
+        <button type="button"> <%= link_to "Edit User", edit_user_path(@user),class: "btn btn-sm btn-secondary"%>  </button>
+        </div>
+        <div class="col-auto">
+          <button type="button"
+            <%= link_to "Delete User", user_path(@user), class: "btn btn-sm btn-danger",
+                            method: :delete,
+                            data: { confirm: "Are you sure?" } %>
+          </button>
+        </div>
+      <% end %>
 
-<li><%= link_to "Delete User", user_path(@user),
-                  method: :delete,
-                  data: { confirm: "Are you sure?" } %></li>
-                  <% end %>
-<table>
-<tr>
-<th>Game Name</th>
-<th>Developer </th>
-<th>Number of Players</th>
-</tr>
-<% @user.videogames.each do |game| %>
-    <tr>
-    <td><%= link_to "#{game.game_name}", videogame_path(game) %></td>
-    <td><%= game.developer %></td>
-    <td><%= game.number_of_players %></td>
-    <% if current_user == @user %>
-        <td> <%= button_to "Remove from library", user_remove_game_path(@user), params: {game_id: game.id}, data: {confirm: "Are you sure?"} %></td>
-    <% end %>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-3 card bg-light">
+      <h2 class="card-title text-center"> Contact Info </h2>
+    
+
+        <div class="card-body">
+        <a class="font-weight-bold"> Email Address: </a> <%= @user.email %>
+        <p class="font-weight-bold"> Steam Id: </p> <%=  @user.steam_id %> 
+        </div> 
+
+    </div>
+  
+    <div class="col-8 justify-content-center">
+        <table class="table table-light ">
+        <thead class="thead-dark"
+        <tr>
+        <th scope="col"> Game Name</th>
+        <th>Developer </th>
+        <th>Number of Players</th>
+        <% if @looking_at_self %>
+        <th> <button type="btn "> <%= link_to "Add Game to Library", user_add_game_path(@user), class: "btn btn-sm bt-dark" %> </button> </th>
+        <% else %>
+        <th></th>
+        <% end %>
         </tr>
-<%end%>
-</table>
+        </thead>
+        <% @user.videogames.each do |game| %>
+            <tr>
+            <td><%= link_to "#{game.game_name}", videogame_path(game) %></td>
+            <td><%= game.developer %></td>
+            <td><%= game.number_of_players %></td>
+            <% if @looking_at_self %>
+                <td> <%= button_to "Remove from library", user_remove_game_path(@user), params: {game_id: game.id}, data: {confirm: "Are you sure?"} %></td>
+            <% end %>
+                </tr>
+        <%end%>
+    </table>
+    </div>
+    
+  </div>
+</div>
