@@ -12,6 +12,8 @@ Rails.application.routes.draw do
       post 'save_game', to: "users#save_new_game_to_user" 
       post 'remove_game', to: "users#remove_game_from_user_library"
       post 'create_and_save_game', to: 'users#create_and_save_game_to_user_library'
+      get 'connect_steam_account', to: 'users#link_steam_account_to_user'
+      
   end
 
 end

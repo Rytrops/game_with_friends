@@ -11,7 +11,7 @@ class User < ApplicationRecord
     
     def client
 
-      Steam.apikey = ENV[“STEAM_API_KEY”]
+      Steam.apikey = ENV["STEAM_API_KEY"]
 
     end
 
