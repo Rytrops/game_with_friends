@@ -78,6 +78,11 @@ class UsersController < ApplicationController
 
         if user.save
             redirect_to user_path(user)
+        else
+            @videogames = Videogame.all
+            @user = user
+            @videogame = videogame
+            render :add_new_game
         end
         
     end
