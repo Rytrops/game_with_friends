@@ -71,6 +71,14 @@ class UsersController < ApplicationController
     end
 
     def link_steam_account_to_user
+        params = link_steam_account_to_user_params
+        user = current_user
+
+        user.steam_url = params[:steam_url]
+
+        if user.save
+            redirect_to user_path(user)
+        end
         
     end
 
@@ -97,6 +105,10 @@ class UsersController < ApplicationController
 
     def create_and_save_game_to_user_library_params
         params.permit(:user_id, :game_name, :developer, :number_of_players)
+    end
+
+    def link_steam_account_to_user_params
+        params.permit(:steam_url, :user_id)
     end
 
     def is_current_user?(user)

@@ -6,11 +6,11 @@
             <h3 class="card-title text-center">Add game to library</h3>
                   <div class="form-label-group">
 
-                  <h5 class="card-subtitle pb-2"> Link Steam Account </h5>
+                <h5 class="card-subtitle pb-2"> Link Steam Account </h5>
                     <%= form_with(url: user_connect_steam_account_path, :html => {:class => "form"}) do |form| %>
                       <div class="form-control-group">
                       <%= form.label :steam_URL, class: "text-capitalize" %>
-                      <%= form.text_field :steam_rul, value: @user.steam_url, class: "form-control" %>
+                      <%= form.text_field :steam_url, value: @user.steam_url, class: "form-control" %>
                       </div>
 
                       <div class="actions">
@@ -18,7 +18,7 @@
                       </div>
                       <% end %>
 
-                  <h5 class="card-subtitle pb-2 pt-2"> Add existing game </h5>
+                <h5 class="card-subtitle pb-2 pt-2"> Add existing game </h5>
 
                   <%= form_with(url: user_save_game_path, :html => {:class => "form"}) do |form| %>
                     <div class="form-contorl-group pb-2">
@@ -31,18 +31,18 @@
                   <% end %>
 
 
-                  <h5 class="card-subtitle pt-3"> Add new game </h5>
+                <h5 class="card-subtitle pt-3"> Add new game </h5>
                   <%= form_with(url: user_create_and_save_game_path, :html => {:class => "form"}) do |form| %>
                       <% if @videogame.errors.any? %>
-                      <div id="error_explanation">
-                        <h2><%= pluralize(@videogame.errors.count, "error") %> prohibited this videogame from being saved:</h2>
-                        <ul>
-                          <% @videogame.errors.each do |error| %>
-                            <li><%= error.full_message %></li>
-                          <% end %>
-                        </ul>
-                      </div>
-                    <% end %>
+                        <div id="error_explanation">
+                          <h2><%= pluralize(@videogame.errors.count, "error") %> prohibited this videogame from being saved:</h2>
+                          <ul>
+                            <% @videogame.errors.each do |error| %>
+                              <li><%= error.full_message %></li>
+                            <% end %>
+                          </ul>
+                        </div>
+                      <% end %>
                       
                       <div class="form-control-group">
                           <%= form.label :game_name %>
@@ -62,4 +62,4 @@
                       <div class="pt-1 actions">
                       <%= form.submit "Add New Game", class: "btn btn-lg btn-primary btn-block text-uppercase" %>
                       </div>
-<% end %>
+                  <% end %>
