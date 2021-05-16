@@ -21,7 +21,7 @@
                 <h5 class="card-subtitle pb-2 pt-2"> Add existing game </h5>
 
                   <%= form_with(url: user_save_game_path, :html => {:class => "form"}) do |form| %>
-                    <div class="form-contorl-group pb-2">
+                    <div class="form-control-group pb-2">
                       <%= form.select :game_id, @videogames.map { |game| [game.game_name, game.id] }, class: "dropdown" %>
                     </div>
 
