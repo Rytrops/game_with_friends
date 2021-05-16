@@ -32,8 +32,12 @@
     
 
         <div class="card-body">
-        <a class="font-weight-bold"> Email Address: </a> <%= @user.email %>
-        <p class="font-weight-bold"> Steam Id: </p> <%=  @user.steam_id %> 
+        <p <a class="font-weight-bold"> Email Address: </a> <a class = "font-weight-normal"> <%= @user.email%> </a> </p>
+
+        <p <a class="font-weight-bold" > Steam Profile: </a>  <%= link_to @user.steam_id, @user.steam_url, class: 'font-weight-normal' %> </p>
+
+        <p class="font-weight-bold tp-2"> Steam Vanity: </p> <%=  @user.steam_vanity %> 
+
         </div> 
 
     </div>

@@ -7,6 +7,12 @@ class User < ApplicationRecord
     has_many :videogames, through: :users_videogames
 
     validates :username, presence: true
-    validates :email, presence: true                    
+    validates :email, presence: true    
+    
+    def client
+
+      Steam.apikey = ENV["STEAM_API_KEY"]
+
+    end
 
 end

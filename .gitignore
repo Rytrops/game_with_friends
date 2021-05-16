@@ -42,3 +42,8 @@ yarn-debug.log*
 # Jetbrains
 .idea/*
 
+#API Key File
+.env
+
+
+
