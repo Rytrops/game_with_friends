@@ -37,7 +37,6 @@ class UsersController < ApplicationController
         @videogame = Videogame.new
     end
 
-    
     def save_new_game_to_user
         user = User.find(save_new_game_to_user_params[:user_id])
         game = Videogame.find(save_new_game_to_user_params[:game_id])
@@ -86,18 +85,7 @@ class UsersController < ApplicationController
         end
         
     end
-
-    #should these be private methods?
-    def correct_user_to_edit_library
-        user_library_to_edit = User.find(params[:user_id])
-        redirect_to user_path(user), notice: "Not Authorized to Edit This Profile" if !is_current_user?(user_library_to_edit) 
-    end
-
-    def correct_user_to_edit_profile
-        user_profile_to_edit = User.find(params[:id])
-        redirect_to user_path(user), notice: "Not Authorized to Edit This Profile" if !is_current_user?(user_profile_to_edit)
-    end
-
+    
     private
 
     def user_params
@@ -118,5 +106,15 @@ class UsersController < ApplicationController
 
     def is_current_user?(user)
         current_user == user
+    end
+
+    def correct_user_to_edit_library
+        user_library_to_edit = User.find(params[:user_id])
+        redirect_to user_path(user), notice: "Not Authorized to Edit This Profile" if !is_current_user?(user_library_to_edit) 
+    end
+
+    def correct_user_to_edit_profile
+        user_profile_to_edit = User.find(params[:id])
+        redirect_to user_path(user), notice: "Not Authorized to Edit This Profile" if !is_current_user?(user_profile_to_edit)
     end
 end
