@@ -4,13 +4,14 @@ class User < ApplicationRecord
   before_validation:update_steamID
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-    has_many :users_videogames
-    has_many :videogames, through: :users_videogames
+  has_many :users_videogames
+  has_many :videogames, through: :users_videogames
 
-    validates :username, presence: true
-    validates :email, presence: true    
-  
+  validates :username, presence: true
+  validates :email, presence: true
+
   private
+  
   def update_steamID
 
     if !(self.steam_url.nil?) && self.steam_id.nil?
