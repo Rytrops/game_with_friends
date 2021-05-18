@@ -13,7 +13,7 @@ class User < ApplicationRecord
   private
   def update_steamID
 
-    unless self.steam_url && self.steam_id
+    if !(self.steam_url.nil?) && self.steam_id.nil?
       self.steam_id = extrapolate_steamID(self.steam_url)
     end
   end
