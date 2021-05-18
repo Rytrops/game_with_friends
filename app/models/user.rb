@@ -10,9 +10,6 @@ class User < ApplicationRecord
     validates :username, presence: true
     validates :email, presence: true    
   
-  
-  
-  
   private
   def update_steamID
 
@@ -22,6 +19,7 @@ class User < ApplicationRecord
   end
 
   def extrapolate_steamID(string_url)
+      # I use the 4 index because thats where the id occurs, this assumes my user is acting in good faith and doesnt supply the wrong link. Should make thise more robust later.
       steam_id = string_url.split("/")[4]
   end
 
