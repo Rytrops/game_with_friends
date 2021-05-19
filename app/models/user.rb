@@ -1,3 +1,4 @@
+require 'dotenv/load'
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -9,19 +10,25 @@ class User < ApplicationRecord
 
   validates :username, presence: true
   validates :email, presence: true
-
-  private
   
+
+  private 
+
   def update_steamID
 
     if !(self.steam_url.nil?) && self.steam_id.nil?
-      self.steam_id = extrapolate_steamID(self.steam_url)
+      self.steam_id = extrapolate_steamID  if valid_steamID?
     end
   end
 
-  def extrapolate_steamID(string_url)
+  def extrapolate_steamID
       # I use the 4 index because thats where the id occurs, this assumes my user is acting in good faith and doesnt supply the wrong link. Should make thise more robust later.
-      steam_id = string_url.split("/")[4]
+      steam_id = self.steam_url.split("/")[4]
+  end
+
+  def valid_steamID?
+    Steam.apikey = ENV["STEAM_API_KEY"]
+    !Steam::User.summary(extrapolate_steamID).nil?
   end
 
 end
