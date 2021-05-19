@@ -2,7 +2,7 @@ require 'dotenv/load'
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  before_validation:update_steamID
+  
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_many :users_videogames
@@ -10,17 +10,32 @@ class User < ApplicationRecord
 
   validates :username, presence: true
   validates :email, presence: true
+  validate :correct_steam_url, on: :update
   
 
   private 
 
-  def update_steamID
-
+  def correct_steam_url
     if !(self.steam_url.nil?) && self.steam_id.nil?
-      self.steam_id = extrapolate_steamID  if valid_steamID?
+      if valid_steamID?
+        self.steam_id = extrapolate_steamID
+      else
+        errors.add(:steam_url, "Must be proper format")
+      end
     end
   end
+  # def update_steamID
 
+  #   if !(self.steam_url.nil?) && self.steam_id.nil?
+  #     if valid_steamID?
+  #       self.steam_id = extrapolate_steamID
+  #     else
+  #       # raise 'Steam ID was not valid'
+  #       # ActiveRecord::
+  #       raise StandardError.new('Steam ID was not valid')
+  #     end
+  #   end
+  # end
   def extrapolate_steamID
       # I use the 4 index because thats where the id occurs, this assumes my user is acting in good faith and doesnt supply the wrong link. Should make thise more robust later.
       steam_id = self.steam_url.split("/")[4]
