@@ -24,7 +24,10 @@ RSpec.describe User, type: :model do
   context '#update_steamID' do
     let(:valid_user){User.new(username: 'test user', email: 'Email@email.com', password: '123456', steam_url: 'https://steamcommunity.com/profiles/76561198068892037/')}
     let(:invalid_user){User.new(username: 'test user', email: 'Email@email.com', password: '123456', steam_url: 'https://steamcommunity.com/profiles/737/')}
-    
+    before :each do
+      allow(valid_user).to receive(:valid_steamID?).and_return true
+      allow(invalid_user).to receive(:valid_steamID?).and_return false
+    end
     it 'should update the steamID if nil and if given a new steam_url' do
       valid_user.save
       expect(valid_user.steam_id).to eq('76561198068892037')
@@ -37,6 +40,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'should not update the steamID if given a new steam_url when it has one already' do
+      allow(valid_user).to receive(:valid_steamID?).and_return true
       valid_user.save
       valid_user.steam_url = 'https://steamcommunity.com/profiles/123456/'
       valid_user.save
