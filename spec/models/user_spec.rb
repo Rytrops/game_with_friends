@@ -55,7 +55,7 @@ RSpec.describe User, type: :model do
 
     it 'should raise an error if invalid steam url' do
       invalid_user.save
-      expect(invalid_user.errors.errors.first.type).to eq("Must be proper format")
+      expect(invalid_user.errors.errors.first.type).to eq("Invalid Steam Profile URL")
     end
 
     it 'should raise an error if invalid steam url v2' do
@@ -64,7 +64,7 @@ RSpec.describe User, type: :model do
         user.save!
       rescue => error 
       end
-      expect(error.message).to eq("Validation failed: Steam url Must be proper format")
+      expect(error.message).to eq("Validation failed: Steam url Invalid Steam Profile URL")
     end
 
     it 'should update the steam_vanity if given a vanity steam url' do

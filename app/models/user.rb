@@ -21,14 +21,16 @@ class User < ApplicationRecord
         extrapolate_steam_vanity
           if valid_steamID? 
             convert_steam_vanity_to_steamID
-            errors.add(:steam_url, 'Must be proper format') unless valid_steamID?
+            steam_url_error_message unless valid_steamID?
           end
       elsif id_url?
         if valid_steamID?
           extrapolate_steamID
         else
-          errors.add(:steam_url, 'Must be proper format')
+          steam_url_error_message
         end
+      else
+        steam_url_error_message
       end
     end
   end
@@ -61,6 +63,10 @@ class User < ApplicationRecord
   def valid_steamID?
     Steam.apikey = ENV["STEAM_API_KEY"]
     !Steam::User.summary(self.steam_id).nil?
+  end
+
+  def steam_url_error_message
+    errors.add(:steam_url, 'Invalid Steam Profile URL')
   end
 
 end
