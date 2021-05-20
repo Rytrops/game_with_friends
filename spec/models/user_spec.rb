@@ -21,7 +21,7 @@ RSpec.describe User, type: :model do
 
   end
 
-  context '#update_steamID' do
+  describe 'correct_steam_url_validations' do
     let(:valid_user){User.new(username: 'test user', email: 'Email@email.com', password: '123456', steam_url: 'https://steamcommunity.com/profiles/76561198068892037/')}
     let(:invalid_user){User.new(username: 'test user', email: 'Email@email.com', password: '123456', steam_url: 'https://steamcommunity.com/profiles/737/')}
     before :each do
@@ -30,6 +30,7 @@ RSpec.describe User, type: :model do
     end
     it 'should update the steamID if nil and if given a new steam_url' do
       valid_user.save
+      
       expect(valid_user.steam_id).to eq('76561198068892037')
     end
 
@@ -65,6 +66,21 @@ RSpec.describe User, type: :model do
       end
       expect(error.message).to eq("Validation failed: Steam url Must be proper format")
     end
+
+    it 'should update the steam_vanity if given a vanity steam url' do
+      valid_user.steam_url = 'https://steamcommunity.com/id/FifthSurprise/'
+      valid_user.save
+      expect(valid_user.steam_vanity).to eq('FifthSurprise')
+    end
+
+    it 'should not update the steam_vanity if given a vanity steam url while already having a steam vanity id' do
+      valid_user.steam_vanity = 'SampleName'
+      valid_user.save
+      valid_user.steam_url = 'https://steamcommunity.com/id/FifthSurprise/'
+      valid_user.save
+      expect(valid_user.steam_vanity).to eq('SampleName')
+    end
+
   end
 
 end

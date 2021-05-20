@@ -16,15 +16,19 @@ class User < ApplicationRecord
   private 
 
   def correct_steam_url
-    if !(self.steam_url.nil?) && self.steam_id.nil?
-
+    if !(self.steam_url.nil?) && self.steam_id.nil? && self.steam_vanity.nil?
       if vanity_url?
         extrapolate_steam_vanity
-        convert_steam_vanity_to_steamID
+          if valid_steamID? 
+            convert_steam_vanity_to_steamID
+            errors.add(:steam_url, 'Must be proper format') unless valid_steamID?
+          end
       elsif id_url?
-        extrapolate_steamID if valid_steamID?
-      else
-        errors.add(:steam_url, 'Must be proper format')
+        if valid_steamID?
+          extrapolate_steamID
+        else
+          errors.add(:steam_url, 'Must be proper format')
+        end
       end
     end
   end
@@ -36,10 +40,11 @@ class User < ApplicationRecord
   def vanity_url?
     parsed_steam_url[3] == 'id'
   end
+
   def id_url?
-    parsed_steam_url[3] == 'profile'
+    parsed_steam_url[3] == 'profiles'
   end
-    
+
   def extrapolate_steamID
     self.steam_id = parsed_steam_url[4]
   end
@@ -55,7 +60,7 @@ class User < ApplicationRecord
 
   def valid_steamID?
     Steam.apikey = ENV["STEAM_API_KEY"]
-    !Steam::User.summary(extrapolate_steamID).nil?
+    !Steam::User.summary(self.steam_id).nil?
   end
 
 end
