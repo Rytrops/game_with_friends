@@ -18,19 +18,17 @@ class User < ApplicationRecord
   def correct_steam_url
     if !(self.steam_url.nil?) && self.steam_id.nil? && self.steam_vanity.nil?
       if vanity_url?
+        begin
         extrapolate_steam_vanity
-          if valid_steamID? 
-            convert_steam_vanity_to_steamID
-            steam_url_error_message unless valid_steamID?
-          end
-      elsif id_url?
-        if valid_steamID?
-          extrapolate_steamID
-        else
-          steam_url_error_message
+        convert_steam_vanity_to_steamID
+        rescue Steam::SteamError 
         end
+        return steam_url_error_message unless valid_steamID?
+      elsif id_url?
+        extrapolate_steamID
+        return steam_url_error_message unless valid_steamID?
       else
-        steam_url_error_message
+        return steam_url_error_message
       end
     end
   end
@@ -52,6 +50,7 @@ class User < ApplicationRecord
   end
 
   def extrapolate_steam_vanity
+    Steam.apikey = ENV["STEAM_API_KEY"]
     self.steam_vanity = parsed_steam_url[4]
   end
 
