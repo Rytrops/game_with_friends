@@ -16,6 +16,9 @@ class User < ApplicationRecord
   private 
 
   def correct_steam_url
+    if !steam_url.nil?
+      vanity_or_steamID_url
+    end
     if !(self.steam_url.nil?) && self.steam_id.nil?
       if valid_steamID?
         self.steam_id = extrapolate_steamID
@@ -24,21 +27,28 @@ class User < ApplicationRecord
       end
     end
   end
-  # def update_steamID
-
-  #   if !(self.steam_url.nil?) && self.steam_id.nil?
-  #     if valid_steamID?
-  #       self.steam_id = extrapolate_steamID
-  #     else
-  #       # raise 'Steam ID was not valid'
-  #       # ActiveRecord::
-  #       raise StandardError.new('Steam ID was not valid')
-  #     end
-  #   end
-  # end
+  
+  def vanity_or_steamID_url
+    parsed_steam_url = self.steam_url.split('/')
+    if parsed_steam_url[3] == 'id'
+      extrapolate_steam_vanity
+    elsif parsed_steam_url[3] == 'profile'
+      extrapolate_steamID
+    end
+  end
+    
   def extrapolate_steamID
-      # I use the 4 index because thats where the id occurs, this assumes my user is acting in good faith and doesnt supply the wrong link. Should make thise more robust later.
-      steam_id = self.steam_url.split("/")[4]
+    self.steam_id = parse_steam_url[4]
+  end
+
+  def extrapolate_steam_vanity
+    self.steam_vanity = parse_steam_url[4]
+    convert_steam_vanity_to_steamID
+  end
+
+  def convert_steam_vanity_to_steamID
+    Steam.apikey = ENV["STEAM_API_KEY"]
+    self.steam_id = Steam::User.vanity_to_steamid(self.steam_vanity)
   end
 
   def valid_steamID?
