@@ -53,6 +53,13 @@ RSpec.describe User, type: :model do
         expect(valid_user.steam_vanity).to eq('FifthSurprise')
       end
 
+      it 'should update the steam_id if given a vanity steam url' do
+        valid_user.steam_url = 'https://steamcommunity.com/id/FifthSurprise/'
+        valid_user.save
+        
+        expect(valid_user.steam_id).to eq('76561197985548237')
+      end
+
       it 'should not update the steam_vanity if given a vanity steam url while already having a steam vanity id' do
         valid_user.steam_vanity = 'SampleName'
         valid_user.save
