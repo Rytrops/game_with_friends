@@ -76,6 +76,7 @@ class UsersController < ApplicationController
         user.steam_url = params[:steam_url]
 
         if user.save
+            
             redirect_to user_path(user)
         else
             @videogames = Videogame.all

@@ -5,5 +5,5 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-User.create(username: "test useR", email_address: "Email@email.com", steam_id: "blah123")
+User.create(username: "test useR", email: "Email@email.com", steam_id: "blah123")
 Videogame.create(game_name: "Apex Legends", developer: "Respawn Entertainment", number_of_players: 3)
