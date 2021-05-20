@@ -16,34 +16,36 @@ class User < ApplicationRecord
   private 
 
   def correct_steam_url
-    if !steam_url.nil?
-      vanity_or_steamID_url
-    end
     if !(self.steam_url.nil?) && self.steam_id.nil?
-      if valid_steamID?
-        self.steam_id = extrapolate_steamID
+
+      if vanity_url?
+        extrapolate_steam_vanity
+        convert_steam_vanity_to_steamID
+      elsif id_url?
+        extrapolate_steamID if valid_steamID?
       else
-        errors.add(:steam_url, "Must be proper format")
+        errors.add(:steam_url, 'Must be proper format')
       end
     end
   end
-  
-  def vanity_or_steamID_url
+
+  def parsed_steam_url
     parsed_steam_url = self.steam_url.split('/')
-    if parsed_steam_url[3] == 'id'
-      extrapolate_steam_vanity
-    elsif parsed_steam_url[3] == 'profile'
-      extrapolate_steamID
-    end
+  end
+
+  def vanity_url?
+    parsed_steam_url[3] == 'id'
+  end
+  def id_url?
+    parsed_steam_url[3] == 'profile'
   end
     
   def extrapolate_steamID
-    self.steam_id = parse_steam_url[4]
+    self.steam_id = parsed_steam_url[4]
   end
 
   def extrapolate_steam_vanity
-    self.steam_vanity = parse_steam_url[4]
-    convert_steam_vanity_to_steamID
+    self.steam_vanity = parsed_steam_url[4]
   end
 
   def convert_steam_vanity_to_steamID
