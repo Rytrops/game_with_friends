@@ -18,7 +18,6 @@ RSpec.describe User, type: :model do
       user = User.new(username: 'test user', email: 'Email@email.com', password: '123456')
       expect(user.save).to eq(true)
     end
-
   end
 
   describe 'correct_steam_url_validations' do
@@ -73,7 +72,7 @@ RSpec.describe User, type: :model do
         invalid_user.save
         expect(invalid_user.errors.errors.length).to eq(1)
       end
-      
+
       it 'should raise an error if invalid steam url' do
         invalid_user.save
         expect(invalid_user.errors.errors.first.type).to eq("Invalid Steam Profile URL")
@@ -86,7 +85,17 @@ RSpec.describe User, type: :model do
         end
         expect(error.message).to eq("Validation failed: Steam url Invalid Steam Profile URL")
       end
+
+      it 'should raise an error if a non steam URL is given' do
+        invalid_user.steam_url = 'BadURL.com'
+        begin
+          invalid_user.save!
+        rescue => error
+        end
+        expect(error.message).to eq("Validation failed: Steam url Invalid Steam Profile URL")
+      end
+
     end
   end
-
 end
+
