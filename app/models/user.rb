@@ -10,7 +10,7 @@ class User < ApplicationRecord
 
   validates :username, presence: true
   validates :email, presence: true
-  validate :correct_steam_url, on: :update
+  validate :correct_steam_url
   
 
   private 

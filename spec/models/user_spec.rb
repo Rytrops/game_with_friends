@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'pry'
 
 RSpec.describe User, type: :model do
   
@@ -21,24 +22,44 @@ RSpec.describe User, type: :model do
   end
 
   context '#update_steamID' do
+    let(:valid_user){User.new(username: 'test user', email: 'Email@email.com', password: '123456', steam_url: 'https://steamcommunity.com/profiles/76561198068892037/')}
+    let(:invalid_user){User.new(username: 'test user', email: 'Email@email.com', password: '123456', steam_url: 'https://steamcommunity.com/profiles/737/')}
+    
     it 'should update the steamID if nil and if given a new steam_url' do
-      user = User.new(username: 'test user', email: 'Email@email.com', password: '123456', steam_url: 'https://steamcommunity.com/profiles/76561198068892037/')
-      user.save
-      expect(user.steam_id).to eq('76561198068892037')
+      valid_user.save
+      expect(valid_user.steam_id).to eq('76561198068892037')
     end
 
     it 'should not update the steamID if a steamID already exists and if given a new steam_url' do
-      user = User.new(username: 'test user', email: 'Email@email.com', password: '123456', steam_url: 'https://steamcommunity.com/profiles/76561198068892037/',steam_id: '123456')
-      user.save
-      expect(user.steam_id).to eq('123456')
+      valid_user.steam_id = '123456'
+      valid_user.save
+      expect(valid_user.steam_id).to eq('123456')
     end
 
     it 'should not update the steamID if given a new steam_url when it has one already' do
-      user = User.new(username: 'test user', email: 'Email@email.com', password: '123456', steam_url: 'https://steamcommunity.com/profiles/76561198068892037/')
-      user.save
-      user.steam_url = 'https://steamcommunity.com/profiles/123456/'
-      user.save
-      expect(user.steam_id).to eq('76561198068892037')
+      valid_user.save
+      valid_user.steam_url = 'https://steamcommunity.com/profiles/123456/'
+      valid_user.save
+      expect(valid_user.steam_id).to eq('76561198068892037')
+    end
+
+    it 'should raise an error if invalid steam url' do
+      invalid_user.save
+      expect(invalid_user.errors.errors.length).to eq(1)
+    end
+
+    it 'should raise an error if invalid steam url' do
+      invalid_user.save
+      expect(invalid_user.errors.errors.first.type).to eq("Must be proper format")
+    end
+
+    it 'should raise an error if invalid steam url v2' do
+      user = User.new(username: 'test user', email: 'Email@email.com', password: '123456', steam_url: 'https://steamcommunity.com/profiles/737/')
+      begin
+        user.save!
+      rescue => error 
+      end
+      expect(error.message).to eq("Validation failed: Steam url Must be proper format")
     end
   end
 
