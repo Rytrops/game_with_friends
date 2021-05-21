@@ -80,6 +80,7 @@ RSpec.describe User, type: :model do
         expect(invalid_user.errors.errors.length).to eq(1)
       end
 
+
       it 'should raise an error if invalid steam url' do
         invalid_user.save
         expect(invalid_user.errors.errors.first.type).to eq("Invalid Steam Profile URL")
@@ -102,6 +103,15 @@ RSpec.describe User, type: :model do
         expect(error.message).to eq("Validation failed: Steam url Invalid Steam Profile URL")
       end
 
+      it 'should not update steam_vanity if an improper url is given' do
+        expect(invalid_user.save).to be(false)
+      end
+   
+      it 'should not save if an improper url is given' do
+        invalid_user.steam_url = 'https://steamcommunity.com/profiles/dqwd654as28/'
+        expect(invalid_user.save).to be(false)
+      end
+      
     end
   end
 end

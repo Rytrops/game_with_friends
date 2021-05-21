@@ -26,9 +26,9 @@ class User < ApplicationRecord
         return steam_url_error_message unless valid_steamID?
       elsif id_url?
         extrapolate_steamID
-        return steam_url_error_message unless valid_steamID?
+        errors.add(:steam_url, 'Invalid Steam Profile URL') unless valid_steamID?
       else
-        return steam_url_error_message
+        errors.add(:steam_url, 'Invalid Steam Profile URL')
       end
     end
   end
