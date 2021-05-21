@@ -28,6 +28,16 @@ RSpec.describe User, type: :model do
         allow(valid_user).to receive(:valid_steamID?).and_return true
       end
 
+      it 'should be able to save if a proper id url is given' do
+        expect(valid_user.save).to be(true)
+      end
+
+      
+      it 'should be able to save if a proper vanity url is given' do
+        valid_user.steam_url = 'https://steamcommunity.com/profiles/123456/'
+        expect(valid_user.save).to be(true)
+      end
+
       it 'should update the steamID if nil and if given a new steam_url' do
         valid_user.save
         expect(valid_user.steam_id).to eq('76561198068892037')
@@ -103,15 +113,15 @@ RSpec.describe User, type: :model do
         expect(error.message).to eq("Validation failed: Steam url Invalid Steam Profile URL")
       end
 
-      it 'should not update steam_vanity if an improper url is given' do
+      it 'should not save if an improper id url is given' do
         expect(invalid_user.save).to be(false)
       end
    
-      it 'should not save if an improper url is given' do
+      it 'should not save if an improper vanity url is given' do
         invalid_user.steam_url = 'https://steamcommunity.com/profiles/dqwd654as28/'
         expect(invalid_user.save).to be(false)
       end
-      
+
     end
   end
 end
