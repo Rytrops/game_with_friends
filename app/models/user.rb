@@ -23,12 +23,12 @@ class User < ApplicationRecord
         convert_steam_vanity_to_steamID
         rescue Steam::SteamError 
         end
-        return steam_url_error_message unless valid_steamID?
+        steam_url_error_message unless valid_steamID?
       elsif id_url?
         extrapolate_steamID
-        errors.add(:steam_url, 'Invalid Steam Profile URL') unless valid_steamID?
+        steam_url_error_message unless valid_steamID?
       else
-        errors.add(:steam_url, 'Invalid Steam Profile URL')
+        steam_url_error_message
       end
     end
   end
