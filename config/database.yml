@@ -17,7 +17,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: game_with_Friends_development
+  database: game-with-Friends_development
   pool: 5
   username: ryan
   password:
@@ -47,7 +47,7 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: game_with_Friends_test
+  database: game-with-Friends_test
   pool: 5
   username: ryan
   password:
