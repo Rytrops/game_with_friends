@@ -45,5 +45,6 @@ yarn-debug.log*
 #API Key File
 .env
 
+commands.txt
 
 
