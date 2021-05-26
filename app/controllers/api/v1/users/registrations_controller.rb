@@ -1,17 +1,32 @@
 module Api
   module V1
     class Users::RegistrationsController < Devise::RegistrationsController
+      
+      # def index
+      #   # @users = User.all
+      #   users = User.all
+      #   render json: UserSerializer.new(users, options).serializable_hash.to_json
+      # end
+
       def new
-          @user = User.new
+          # @user = User.new
+          user = User.new
       end
+      
 
       def create
-          @user = User.new(user_params)
+        #   @user = User.new(user_params)
 
-          if @user.save
-              redirect_to @user
+        #   if @user.save
+        #       redirect_to @user
+        #   else
+        #       render :new
+        #   end
+          user = User.new(user_params)
+          if user.save
+            render json: UserSerializer.new(user).serializable_hash.to_json
           else
-              render :new
+            render json: { error: user.errors.messages }, status: 422
           end
       end
       
@@ -22,7 +37,8 @@ module Api
       private
 
       def user_params
-          params.require(:user).permit(:username, :email, :steam_id, :password)
+        # params.permit(:username, :email, :steam_id, :password)
+        params.require(:user).permit(:username, :email, :steam_id, :password)
       end
 
       def save_new_game_to_user_params

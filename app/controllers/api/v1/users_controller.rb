@@ -6,12 +6,16 @@ module Api
       before_action :correct_user_to_edit_profile, only: [:edit, :update, :destroy]
 
       def index
-        @users = User.all
+        # @users = User.all
+        users = User.all
+        render json: UserSerializer.new(users).serializable_hash.to_json
       end
 
       def show
-        @user = User.find(params[:id])
-        @looking_at_self = is_current_user?(@user)
+        # @user = User.find(params[:id])
+        # @looking_at_self = is_current_user?(@user)
+        user = User.find(params[:id])
+        render json: UserSerializer.new(user, options).serializable_hash.to_json
       end
 
       def edit
@@ -19,11 +23,17 @@ module Api
       end
 
       def update
-        @user = current_user
-        if @user.update(user_params)
-          redirect_to @user
+        # @user = current_user
+        # if @user.update(user_params)
+        #   redirect_to @user
+        # else
+        #   render :edit
+        # end
+        user = User.find(params[:id])
+        if user.update(user_params)
+          render json: UserSerializer.new(user, options).serializable_hash.to_json
         else
-          render :edit
+          render json: { error: user.errors.messages }, status: 422
         end
       end
 
@@ -31,6 +41,13 @@ module Api
         @user = current_user
         @user.destroy
         redirect_to root_path
+
+        user = User.find(params[:id])
+        if user.destroy
+          head :no_content
+        else
+          render json: { error: user.errors.messages }, status: 422
+        end
       end
 
       def add_new_game
@@ -114,6 +131,10 @@ module Api
       def correct_user_to_edit_profile
         user_profile_to_edit = User.find(params[:id])
         redirect_to user_path(user), notice: "Not Authorized to Edit This Profile" if !is_current_user?(user_profile_to_edit)
+      end
+
+      def options
+        @options ||= { include: %i[videogames] }
       end
     end
   end

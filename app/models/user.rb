@@ -10,6 +10,7 @@ class User < ApplicationRecord
 
   validates :username, presence: true
   validates :email, presence: true
+  # not being called as part of db:seed
   validate :correct_steam_url
   
 
