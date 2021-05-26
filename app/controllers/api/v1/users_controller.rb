@@ -1,9 +1,9 @@
 module Api
   module V1
     class UsersController < ApplicationController
-      before_action :authenticate_user!, except: [:index, :show]
-      before_action :correct_user_to_edit_library, only: [:add_new_game, :remove_game_from_user_library]
-      before_action :correct_user_to_edit_profile, only: [:edit, :update, :destroy]
+      # before_action :authenticate_user!, except: [:index, :show]
+      # before_action :correct_user_to_edit_library, only: [:add_new_game, :remove_game_from_user_library]
+      # before_action :correct_user_to_edit_profile, only: [:edit, :update, :destroy]
 
       def index
         # @users = User.all
@@ -38,9 +38,9 @@ module Api
       end
 
       def destroy
-        @user = current_user
-        @user.destroy
-        redirect_to root_path
+        # @user = current_user
+        # @user.destroy
+        # redirect_to root_path
 
         user = User.find(params[:id])
         if user.destroy
@@ -57,11 +57,16 @@ module Api
       end
 
       def save_new_game_to_user
+        # user = User.find(save_new_game_to_user_params[:user_id])
+        # game = Videogame.find(save_new_game_to_user_params[:game_id])
+        # user.videogames << game
+
+        # redirect_to user_path(user)
+
         user = User.find(save_new_game_to_user_params[:user_id])
         game = Videogame.find(save_new_game_to_user_params[:game_id])
         user.videogames << game
-
-        redirect_to user_path(user)
+        render json: UserSerializer.new(user, options).serializable_hash.to_json
       end
 
       def remove_game_from_user_library

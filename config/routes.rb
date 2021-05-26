@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      devise_for :users, controllers: {registrations: 'users/registrations'} do
+      devise_for :users, controllers: {registrations: 'api/v1/users/registrations'} do
         devise_scope :user do
             get '/users/sign_out', to: 'devise/sessions#destroy'
         end
@@ -19,5 +19,5 @@ Rails.application.routes.draw do
     end
   # end
   end
-  get '*path', to: 'home#home', via: :all
+  # get '*path', to: 'home#home', via: :all
 end
