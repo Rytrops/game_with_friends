@@ -6,6 +6,7 @@ module Api
       # before_action :correct_user_to_edit_profile, only: [:edit, :update, :destroy]
 
       def index
+        
         # @users = User.all
         users = User.all
         render json: UserSerializer.new(users).serializable_hash.to_json
@@ -15,7 +16,7 @@ module Api
         # @user = User.find(params[:id])
         # @looking_at_self = is_current_user?(@user)
         user = User.find(params[:id])
-        render json: UserSerializer.new(user, options).serializable_hash.to_json
+        render json: UserSerializer.new(user, options)
       end
 
       def edit
