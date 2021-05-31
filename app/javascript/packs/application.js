@@ -9,6 +9,7 @@ import 'channels';
 
 import 'bootstrap';
 // import "../stylesheets/application"
+import '../../assets/stylesheets/application.scss';
 
 Rails.start();
 Turbolinks.start();
