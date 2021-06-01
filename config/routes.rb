@@ -8,6 +8,7 @@ Rails.application.routes.draw do
             get '/users/sign_out', to: 'devise/sessions#destroy'
         end
       end
+
       resources :videogames
       resources :users, except: [:new, :create] do 
           get 'add_game', to: 'users#add_new_game'
