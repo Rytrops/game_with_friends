@@ -9,7 +9,9 @@ module Api
             user = User.find_by(email: session_params[:email])
             #is this secure irt password handling?
             if user && user.valid_password?(session_params[:password])
+              sign_in(user)
               session[:user_id] = user.id
+
               render json: {
                 logged_in: true,
                 user: @user
