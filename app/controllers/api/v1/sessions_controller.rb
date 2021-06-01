@@ -14,7 +14,7 @@ module Api
 
               render json: {
                 logged_in: true,
-                user: @user
+                user: user
               }
             else
             render json: { error: user.errors.messages }, status: 422
@@ -22,6 +22,8 @@ module Api
         end
 
         def destroy
+          # user = User.find_by(email: session_params[:email])
+          # sign_out(user)
           session.clear
           render json: {
             status: 200,
