@@ -26,6 +26,7 @@ gem 'devise', '~> 4.7', '>= 4.7.3'
 gem 'steam-api'
 gem 'dotenv'
 gem 'pry-rails'
+gem 'rack-cors'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'

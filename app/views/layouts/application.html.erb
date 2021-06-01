@@ -15,10 +15,11 @@
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'index' %>
     
   </head>
   <body>
-
+  <%= javascript_pack_tag 'index' %>
     <%= render "home/header" %>
 
     <div class= "container-fluid min-vh-100 pt-3" style="background:dimgrey">
