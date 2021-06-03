@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Button, Row, Col, Card } from 'react-bootstrap';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 const Home = () => {
   return (
@@ -16,14 +17,16 @@ const Home = () => {
                 <Card.Subtitle>
                   <p className='text-muted '>Helping Gamers Play Together.</p>
                 </Card.Subtitle>
-                <Button
-                  type='button'
-                  className='mr-2'
-                  variant='secondary'
-                  size='sm'
-                >
-                  Sign in
-                </Button>
+                <Link to='/sign-in'>
+                  <Button
+                    type='button'
+                    className='mr-2'
+                    variant='secondary'
+                    size='sm'
+                  >
+                    Sign in
+                  </Button>
+                </Link>
                 <Button
                   type='button'
                   className='ml-2'
