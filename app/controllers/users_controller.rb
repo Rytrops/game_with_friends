@@ -79,10 +79,7 @@ class UsersController < ApplicationController
             
             redirect_to user_path(user)
         else
-            @videogames = Videogame.all
-            @user = user
-            @videogame = videogame
-            render :add_new_game
+           redirect_to user_path(user)
         end
         
     end
