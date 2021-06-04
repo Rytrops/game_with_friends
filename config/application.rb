@@ -8,7 +8,7 @@ Bundler.require(*Rails.groups)
 
 module GameWithFriends
   class Application < Rails::Application
-    config.api_only =  false
+    config.api_only = true
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
 
