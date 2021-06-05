@@ -3,11 +3,13 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      devise_for :users, controllers: {registrations: 'api/v1/users/registrations'} do
+      devise_for :users, :skip => [:sessions], controllers: {registrations: 'api/v1/users/registrations'} do
         devise_scope :user do
             get '/users/sign_out', to: 'devise/sessions#destroy'
         end
       end
+
+      post '/users/sign_in', to: 'authentication#create'
 
       resources :videogames
       resources :users, except: [:new, :create] do 

@@ -89,6 +89,11 @@ GEM
     diff-lcs (1.4.4)
     dotenv (2.7.6)
     erubi (1.10.0)
+    factory_bot (6.2.0)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.2.0)
+      factory_bot (~> 6.2.0)
+      railties (>= 5.0.0)
     faraday (1.4.1)
       faraday-excon (~> 1.1)
       faraday-net_http (~> 1.0)
@@ -107,6 +112,7 @@ GEM
       activesupport (>= 5.0.0)
     jsonapi-serializer (2.2.0)
       activesupport (>= 4.2)
+    jwt (2.2.3)
     listen (3.4.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -271,8 +277,10 @@ DEPENDENCIES
   capybara (>= 3.26)
   devise (~> 4.7, >= 4.7.3)
   dotenv
+  factory_bot_rails
   jbuilder (~> 2.7)
   jsonapi-serializer
+  jwt
   listen (~> 3.3)
   pg
   pry-rails

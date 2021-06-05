@@ -4,7 +4,7 @@ module Api
       # before_action :authenticate_api_v1_user! #, except: [:index, :show]
       # before_action :correct_user_to_edit_library, only: [:add_new_game, :remove_game_from_user_library]
       # before_action :correct_user_to_edit_profile, only: [:edit, :update, :destroy]
-      skip_before_action :verify_authenticity_token
+      # skip_before_action :verify_authenticity_token
 
       def index
         
