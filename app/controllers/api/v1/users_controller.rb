@@ -1,13 +1,14 @@
 module Api
   module V1
     class UsersController < ApplicationController
+      include ActionController::HttpAuthentication::Token
       # before_action :authenticate_api_v1_user! #, except: [:index, :show]
       # before_action :correct_user_to_edit_library, only: [:add_new_game, :remove_game_from_user_library]
       # before_action :correct_user_to_edit_profile, only: [:edit, :update, :destroy]
       # skip_before_action :verify_authenticity_token
+      before_action :authenticate_user
 
       def index
-        
         # @users = User.all
         users = User.all
         render json: UserSerializer.new(users).serializable_hash.to_json
@@ -109,6 +110,17 @@ module Api
       end
       
       private
+
+      def authenticate_user
+        token, _options = token_and_options(request)
+        return render json: {error: 'Unauthorized Access'}, status: 401 if token.nil?
+        begin
+          user_id = AuthenticationTokenService.decode_token(token).to_i
+          User.find(user_id)
+        rescue ActiveRecord::RecordNotFound
+          render json: {}, status: 401
+        end
+      end
 
       def user_params
         params.require(:user).permit(:username, :email, :steam_id, :password)

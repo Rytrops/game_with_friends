@@ -5,12 +5,16 @@ import Profile from './Users/Profile';
 import Home from './Home';
 import Signin from './Signin';
 import Navibar from './Navbar';
+import Axios from 'axios';
+// const authAxios = axiosApi.create({
+//   baseURL: 'http://localhost:3000/api/v1',
+// });
 
 const App = () => {
   return (
-    <div className='bg bg-dark vh-100'>
       <Router>
         <Navibar />
+          <div className='bg-secondary vh-100'></div>
         <Switch>
           <Route exact path='/' component={Home} />
           <Route path='/sign-in'>

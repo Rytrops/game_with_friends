@@ -9,7 +9,7 @@ Rails.application.routes.draw do
         end
       end
 
-      post '/users/sign_in', to: 'authentication#create'
+      post '/users/sign-in', to: 'authentication#create'
 
       resources :videogames
       resources :users, except: [:new, :create] do 

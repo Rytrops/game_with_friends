@@ -3,21 +3,20 @@ module Api
     class AuthenticationController < ApplicationController
 
           #I think i need this part but im not sure why
-      skip_before_action :verify_authenticity_token # skip CSRF check for APIs
+      # skip_before_action :verify_authenticity_token # skip CSRF check for APIs
       respond_to :json
 
       def create
-          user = User.find_by(email: sign_in_params[:email])
-          if user&.valid_password?(sign_in_params[:password])
-            token = AuthenticationTokenService(user)
-            render json: {
-              token: {},
-              logged_in: true,
-              user: user
-            }
-          else
-            render json: { error: user.errors.messages }, status: 422
-          end
+        if user&.valid_password?(sign_in_params[:password])
+          token = AuthenticationTokenService.encode_token(user)
+          render json: {
+            token: token,
+            logged_in: true,
+            user: user
+          }, status: :created
+        else
+          render json: { error: "Invalid Login Credentials" }, status: 422
+        end
       end
 
       def destroy
@@ -35,6 +34,9 @@ module Api
 
       def sign_in_params
         params.require(:user).permit(:email, :password)
+      end
+      def user
+        @user ||= User.find_by(email: sign_in_params[:email])
       end
 
     end
