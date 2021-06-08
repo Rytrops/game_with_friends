@@ -28,13 +28,14 @@ const Navibar = () => {
       </Navbar.Brand>
       <Navbar.Toggle aria-controls='basic-navbar-nav' />
       <Navbar.Collapse id='basic-navbar-nav'>
-        {user && (
+        {user ? (
           <>
-            <div className='ml-auto'>
-              <NavDropdown
+            <div className='ml-auto pr-2'>
+              <DropdownButton
                 title={user.username}
                 id='basic-nav-dropdown'
                 variant='secondary'
+                size='sm'
                 className='text-secondary'
               >
                 <NavDropdown.Item href={`/${user.id}/profile`}>
@@ -50,7 +51,7 @@ const Navibar = () => {
                 <NavDropdown.Item href='#action/3.4'>
                   Separated link
                 </NavDropdown.Item>
-              </NavDropdown>
+              </DropdownButton>
             </div>
 
             <Button
@@ -62,8 +63,7 @@ const Navibar = () => {
               Sign Out
             </Button>
           </>
-        )}
-        {!user && (
+        ) : (
           <>
             <Nav.Link href='/sign-in' className='ml-auto'>
               <Button
