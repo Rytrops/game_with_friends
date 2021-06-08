@@ -4,19 +4,16 @@ module Api
       include ActionController::HttpAuthentication::Token
       # before_action :authenticate_api_v1_user! #, except: [:index, :show]
       # before_action :correct_user_to_edit_library, only: [:add_new_game, :remove_game_from_user_library]
-      # before_action :correct_user_to_edit_profile, only: [:edit, :update, :destroy]
-      # skip_before_action :verify_authenticity_token
       before_action :authenticate_user
+      before_action :correct_user_to_edit_profile, only: [:edit, :update, :destroy]
+      # skip_before_action :verify_authenticity_token
 
       def index
-        # @users = User.all
         users = User.all
         render json: UserSerializer.new(users).serializable_hash.to_json
       end
 
       def show
-        # @user = User.find(params[:id])
-        # @looking_at_self = is_current_user?(@user)
         user = User.find(params[:id])
         render json: UserSerializer.new(user, options)
       end
@@ -26,12 +23,6 @@ module Api
       end
 
       def update
-        # @user = current_user
-        # if @user.update(user_params)
-        #   redirect_to @user
-        # else
-        #   render :edit
-        # end
         user = User.find(params[:id])
         if user.update(user_params)
           render json: UserSerializer.new(user, options).serializable_hash.to_json
@@ -123,6 +114,16 @@ module Api
         end
       end
 
+      def correct_user_to_edit_profile
+        token, _options = token_and_options(request)
+        render json: {error: 'Unauthorized Access'}, status: 401  if AuthenticationTokenService.decode_token(token) != params[:id]
+      end
+
+      def correct_user_to_edit_library
+        user_library_to_edit = User.find(params[:user_id])
+        redirect_to user_path(user), notice: "Not Authorized to Edit This Profile" if !is_current_user?(user_library_to_edit) 
+      end
+
       def user_params
         params.require(:user).permit(:username, :email, :steam_id, :password)
       end
@@ -141,16 +142,6 @@ module Api
 
       def is_current_user?(user)
         current_user == user
-      end
-
-      def correct_user_to_edit_library
-        user_library_to_edit = User.find(params[:user_id])
-        redirect_to user_path(user), notice: "Not Authorized to Edit This Profile" if !is_current_user?(user_library_to_edit) 
-      end
-
-      def correct_user_to_edit_profile
-        user_profile_to_edit = User.find(params[:id])
-        redirect_to user_path(user), notice: "Not Authorized to Edit This Profile" if !is_current_user?(user_profile_to_edit)
       end
 
       def options

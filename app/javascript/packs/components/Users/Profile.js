@@ -11,14 +11,13 @@ import {
   Alert,
 } from 'react-bootstrap';
 import { useHistory, Redirect } from 'react-router-dom';
-
+import Settings from './Settings';
 const Users = (props) => {
   const [user, setUser] = useState([]);
   const [userVideogames, setUserVideogames] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
   const id = props.match.params.id;
-  const url = loaded && user.attributes.steam_url;
 
   const authAxios = axios.create({
     headers: {
@@ -41,7 +40,6 @@ const Users = (props) => {
 
   const loggedIn = () => {
     const user = JSON.parse(localStorage.getItem('USER'));
-    const history = useHistory();
     if (user === null) {
       return (
         <>
@@ -61,60 +59,61 @@ const Users = (props) => {
   return (
     <div className='bg-secondary vh-100'>
       {loggedIn()}
-      <Container className='vh-100'>
-        <Row className='justify-content-center'>
-          <Col className=' col-auto text-center border border-dark rounded bg-light mt-5 text-secondary mb-5'>
-            {loaded && (
+      {loaded && (
+        <Container className='vh-100'>
+          <Row className='justify-content-center'>
+            <Col className=' col-auto text-center border border-dark rounded bg-light mt-5 text-secondary mb-5'>
               <h1> Welcome to {user.attributes.username}'s profile</h1>
-            )}
-          </Col>
-        </Row>
-        <Row>
-          <Col className='col-3'>
-            <Card className='bg-light border-black '>
-              <Card.Title className='text-center text-secondary'>
-                Contact Info:
-              </Card.Title>
-              <Card.Body>
-                <h6>Username: {loaded && user.attributes.username}</h6>
-                {/* <a href={`#/systemlist?projId=${project.id}`}>{project.name}</a> */}
-                <h6>Steam Profile: </h6>
-                {loaded && (
+            </Col>
+          </Row>
+          <Row>
+            <Col className='col-3'>
+              <Card className='bg-light border-black '>
+                <Card.Title className='text-center text-secondary'>
+                  Contact Info:
+                </Card.Title>
+                <Card.Body>
+                  <h6>Username: {user.attributes.username}</h6>
+                  <h6>Steam Profile: </h6>
                   <a href={`${user.attributes.steam_url}`} target='blank'>
                     View my Steam Profile
                   </a>
-                )}
-                <h6>Email: {loaded && user.attributes.email}</h6>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col>
-            <Table className='text-light'>
-              <thead>
-                <tr>
-                  <th>Game Name</th>
-                  <th>Number of Players</th>
-                  <th>Developer</th>
-                </tr>
-              </thead>
-              <tbody>
-                {loaded &&
-                  userVideogames.map((game) => {
-                    const { game_name, number_of_players, developer } =
-                      game.attributes;
-                    return (
-                      <tr key={game.id}>
-                        <td> {game_name}</td>
-                        <td> {number_of_players}</td>
-                        <td> {developer}</td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </Table>
-          </Col>
-        </Row>
-      </Container>
+
+                  <h6>Email: {user.attributes.email}</h6>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col className='col-6'>
+              <Table className='text-light'>
+                <thead>
+                  <tr>
+                    <th>Game Name</th>
+                    {/* <th>Number of Players</th> */}
+                    <th>Developer</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {loaded &&
+                    userVideogames.map((game) => {
+                      const { game_name, number_of_players, developer } =
+                        game.attributes;
+                      return (
+                        <tr key={game.id}>
+                          <td> {game_name}</td>
+                          {/* <td> {number_of_players}</td> */}
+                          <td> {developer}</td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </Table>
+            </Col>
+            <Col>
+              <Settings />
+            </Col>
+          </Row>
+        </Container>
+      )}
     </div>
   );
 };

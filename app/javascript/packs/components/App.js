@@ -6,7 +6,8 @@ import Home from './Home';
 import SignIn from './Signin';
 import Navibar from './Navbar';
 import SignUp from './Signup';
-import Axios from 'axios';
+import ManageAccount from './Users/ManageAccount';
+
 // const authAxios = axiosApi.create({
 //   baseURL: 'http://localhost:3000/api/v1',
 // });
@@ -20,7 +21,8 @@ const App = () => {
           <Route exact path='/' component={Home} />
           <Route path='/sign-in' component={SignIn} />
           <Route path='/sign-up' component={SignUp} />
-          <Route path='/:id/profile' component={Profile}></Route>
+          <Route path='/:id/profile' component={Profile} />
+          <Route path='/:id/settings' component={ManageAccount} />
         </Switch>
       </Router>
     </div>
