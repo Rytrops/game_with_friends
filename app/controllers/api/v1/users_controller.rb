@@ -113,7 +113,8 @@ module Api
 
       def authenticate_user
         token, _options = token_and_options(request)
-        return render json: {error: 'Unauthorized Access'}, status: 401 if token.nil?
+        return render json: {error: 'Unauthorized Access'}, status: 401 if token.nil? || token == 'null'
+
         begin
           user_id = AuthenticationTokenService.decode_token(token).to_i
           User.find(user_id)

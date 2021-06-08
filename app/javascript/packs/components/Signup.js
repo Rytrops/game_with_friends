@@ -40,7 +40,6 @@ export default function SignUp() {
         setErrorMessage(error.response.data.error);
       });
   }
-  console.log(errorMessage);
   const alertError = () => {
     return (
       <Alert

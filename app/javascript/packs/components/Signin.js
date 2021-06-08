@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Button, Row, Col, Card, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
@@ -9,11 +9,21 @@ import Alert from 'react-bootstrap/Alert';
 //   baseURL: 'http://localhost:3000/api/v1',
 // });
 
-export default function Login() {
+export default function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const history = useHistory();
+
+  const checkErrorMessage = () => {
+    if (props.location.state) {
+      setErrorMessage(Object.values(props.location.state));
+    }
+  };
+
+  useEffect(() => {
+    checkErrorMessage();
+  }, []);
 
   function validateForm() {
     return email.length > 0 && password.length > 0;

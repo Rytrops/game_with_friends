@@ -7,6 +7,7 @@ import {
   Button,
   NavDropdown,
   Fragment,
+  DropdownButton,
 } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 
@@ -34,6 +35,7 @@ const Navibar = () => {
                 title={user.username}
                 id='basic-nav-dropdown'
                 variant='secondary'
+                className='text-secondary'
               >
                 <NavDropdown.Item href={`/${user.id}/profile`}>
                   My Profile
@@ -59,6 +61,30 @@ const Navibar = () => {
             >
               Sign Out
             </Button>
+          </>
+        )}
+        {!user && (
+          <>
+            <Nav.Link href='/sign-in' className='ml-auto'>
+              <Button
+                type='button'
+                className='mr-2'
+                variant='secondary'
+                size='sm'
+              >
+                Sign in
+              </Button>
+            </Nav.Link>
+            <Nav.Link href='/sign-up'>
+              <Button
+                type='button'
+                className='ml-2'
+                variant='secondary'
+                size='sm'
+              >
+                Sign Up
+              </Button>
+            </Nav.Link>
           </>
         )}
       </Navbar.Collapse>

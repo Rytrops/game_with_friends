@@ -1,8 +1,16 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Button, Row, Col, Card, Table } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
+import {
+  Container,
+  Button,
+  Row,
+  Col,
+  Card,
+  Table,
+  Alert,
+} from 'react-bootstrap';
+import { useHistory, Redirect } from 'react-router-dom';
 
 const Users = (props) => {
   const [user, setUser] = useState([]);
@@ -26,14 +34,27 @@ const Users = (props) => {
         setUserVideogames(resp.data.included);
         setLoaded(true);
       })
-      .catch((resp) => console.log(resp));
+      .catch((error) => {
+        return <Redirect to='/' />;
+      });
   }, [id]);
 
   const loggedIn = () => {
     const user = JSON.parse(localStorage.getItem('USER'));
     const history = useHistory();
     if (user === null) {
-      return history.push('/');
+      return (
+        <>
+          <Redirect
+            to={{
+              pathname: '/sign-in',
+              state: {
+                errorNotification: 'You must be logged in to access this page',
+              },
+            }}
+          />
+        </>
+      );
     }
   };
 
