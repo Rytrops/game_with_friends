@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Button, Row, Col, Card, Table } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 
 const Users = (props) => {
   const [user, setUser] = useState([]);
@@ -28,8 +29,17 @@ const Users = (props) => {
       .catch((resp) => console.log(resp));
   }, [id]);
 
+  const loggedIn = () => {
+    const user = JSON.parse(localStorage.getItem('USER'));
+    const history = useHistory();
+    if (user === null) {
+      return history.push('/');
+    }
+  };
+
   return (
     <div className='bg-secondary vh-100'>
+      {loggedIn()}
       <Container className='vh-100'>
         <Row className='justify-content-center'>
           <Col className=' col-auto text-center border border-dark rounded bg-light mt-5 text-secondary mb-5'>

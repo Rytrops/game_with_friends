@@ -15,7 +15,7 @@ module Api
             user: user
           }, status: :created
         else
-          render json: { error: "Invalid Login Credentials" }, status: 422
+          render json: [error: { message: 'Invalid Login Credentials' }], status: 422
         end
       end
 

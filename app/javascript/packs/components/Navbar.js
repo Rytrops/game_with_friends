@@ -8,17 +8,23 @@ import {
   NavDropdown,
   Fragment,
 } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 
 const Navibar = () => {
   const user = JSON.parse(localStorage.getItem('USER'));
+  const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventdefault;
     localStorage.clear();
+    history.push('/');
+    window.location.reload(false);
   };
   return (
     <Navbar bg='dark' expand='md'>
-      <Navbar.Brand href='/'>Game With Friends</Navbar.Brand>
+      <Navbar.Brand className='text-light' href='/'>
+        Game With Friends
+      </Navbar.Brand>
       <Navbar.Toggle aria-controls='basic-navbar-nav' />
       <Navbar.Collapse id='basic-navbar-nav'>
         {user && (
