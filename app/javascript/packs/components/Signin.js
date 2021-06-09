@@ -10,16 +10,6 @@ export default function Login(props) {
   const [errorMessage, setErrorMessage] = useState('');
   const history = useHistory();
 
-  const checkErrorMessage = () => {
-    if (props.location.state) {
-      setErrorMessage(Object.values(props.location.state.state));
-    }
-  };
-
-  useEffect(() => {
-    checkErrorMessage();
-  }, []);
-
   function validateForm() {
     return email.length > 0 && password.length > 0;
   }
@@ -38,6 +28,15 @@ export default function Login(props) {
         setErrorMessage(error.response.data[0].error.message);
       });
   }
+  const checkErrorMessage = () => {
+    if (props.location.state) {
+      setErrorMessage(Object.values(props.location.state.state));
+    }
+  };
+
+  useEffect(() => {
+    checkErrorMessage();
+  }, []);
 
   const alertError = () => {
     return (
@@ -54,7 +53,7 @@ export default function Login(props) {
 
   return (
     <>
-      <div>{errorMessage !== '' && alertError()}` </div>
+      <div>{errorMessage !== '' && alertError()} </div>
       <Container className='border-light'>
         <Row className='mx-auto'>
           <Col className='col-4 mx-auto mt-5 h-100'>

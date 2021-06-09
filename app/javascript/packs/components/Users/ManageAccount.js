@@ -61,13 +61,13 @@ const ManageAccount = (props) => {
     if (user == null) {
       return history.push('/sign-in', {
         state: {
-          errorNotification: 'You must be logged in to access this page',
+          errorNotification: 'You must be logged in to access this page.',
         },
       });
     } else if (user.id != userPage) {
       return history.push('/', {
         state: {
-          errorNotification: 'You must be logged in to access this page',
+          errorNotification: 'You not authorized to edit this page.',
         },
       });
     } else {
