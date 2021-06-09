@@ -1,21 +1,14 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import {
-  Container,
-  Button,
-  Row,
-  Col,
-  Card,
-  Table,
-  Alert,
-} from 'react-bootstrap';
+import { Container, Row, Col, Card, Table, Alert } from 'react-bootstrap';
 import { useHistory, Redirect } from 'react-router-dom';
 import Settings from './Settings';
 const Users = (props) => {
   const [user, setUser] = useState([]);
   const [userVideogames, setUserVideogames] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
   const history = useHistory();
 
   const id = props.match.params.id;
@@ -50,9 +43,33 @@ const Users = (props) => {
     }
   };
 
+  const checkSuccessMessage = () => {
+    if (props.location.state) {
+      setSuccessMessage(Object.values(props.location.state.state));
+    }
+  };
+
+  useEffect(() => {
+    checkSuccessMessage();
+  }, []);
+
+  const alertSuccess = () => {
+    return (
+      <Alert
+        variant='success'
+        className='text-center'
+        onClose={() => setSuccessMessage('')}
+        dismissible
+      >
+        {successMessage}
+      </Alert>
+    );
+  };
+
   return (
     <div className='bg-secondary vh-100'>
       {loggedIn()}
+      <div>{successMessage && alertSuccess()}</div>
       {loaded && (
         <Container className='vh-100'>
           <Row className='justify-content-center'>

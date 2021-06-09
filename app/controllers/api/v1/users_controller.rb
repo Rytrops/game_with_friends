@@ -25,7 +25,7 @@ module Api
       def update
         user = User.find(params[:id])
         if user.update(user_params)
-          render json: UserSerializer.new(user, options).serializable_hash.to_json
+          render json: UserSerializer.new(user, options).serializable_hash.to_json, status: 200
         else
           render json: { error: user.errors.messages }, status: 422
         end

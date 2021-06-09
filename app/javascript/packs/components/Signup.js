@@ -63,7 +63,7 @@ export default function SignUp() {
   return (
     <>
       <div className='bg-secondary vh-100'>
-        <div>{errorMessage !== '' && alertError()}` </div>
+        <div>{errorMessage !== '' && alertError()} </div>
         <Container className='border-light'>
           <Row className='mx-auto'>
             <Col className='col-4 mx-auto mt-5 h-100'>

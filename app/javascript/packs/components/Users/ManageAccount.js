@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import {
   Container,
@@ -15,11 +15,9 @@ const ManageAccount = (props) => {
   const user = JSON.parse(localStorage.getItem('USER'));
   const userPage = props.match.params.id;
   const history = useHistory();
-
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
   const [errorMessage, setErrorMessage] = useState('');
   const [loaded, setLoaded] = useState(false);
 
@@ -27,17 +25,30 @@ const ManageAccount = (props) => {
     return email.length > 0 && password.length > 0 && username.length > 0;
   }
 
+  const authAxios = axios.create({
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('JWT')}`,
+    },
+  });
+
   function handleSubmit(e) {
     e.preventDefault();
-    axios
-      .post('/api/v1/users', { user: { email, password, username } })
+    authAxios
+      .patch(`/api/v1/users/${user.id}`, {
+        user: { email, username, password },
+      })
       .then((resp) => {
-        return axios
+        return authAxios
           .post('/api/v1/users/sign-in', { user: { email, password } })
           .then((resp) => {
             localStorage.setItem('JWT', resp.data.token);
             localStorage.setItem('USER', JSON.stringify(resp.data.user));
-            history.push('/');
+
+            history.push(`/${user.id}/profile`, {
+              state: {
+                errorNotification: 'Account Succesfully Updated!',
+              },
+            });
             window.location.reload();
           });
       })
@@ -47,8 +58,6 @@ const ManageAccount = (props) => {
   }
 
   const isAllowedUser = () => {
-    console.log(user);
-    console.log(userPage);
     if (user == null) {
       return history.push('/sign-in', {
         state: {
@@ -62,6 +71,8 @@ const ManageAccount = (props) => {
         },
       });
     } else {
+      setUsername(user.username);
+      setEmail(user.email);
       setLoaded(true);
     }
   };
@@ -70,9 +81,29 @@ const ManageAccount = (props) => {
     isAllowedUser();
   }, []);
 
+  const alertError = () => {
+    return (
+      <Alert
+        variant='danger'
+        className='text-center'
+        onClose={() => setErrorMessage('')}
+        dismissible
+      >
+        {Object.keys(errorMessage).map((key) => {
+          return (
+            <dl key={key}>
+              <dt> {key}</dt>
+              <dd> {errorMessage[key]} </dd>
+            </dl>
+          );
+        })}
+      </Alert>
+    );
+  };
+
   return (
     <div className='bg-secondary vh-100'>
-      {/* {isAllowedUser()} */}
+      <div>{errorMessage !== '' && alertError()} </div>
       {loaded && (
         <Container className='border-light'>
           <Row className='mx-auto'>
@@ -87,7 +118,7 @@ const ManageAccount = (props) => {
                     <Form.Control
                       autoFocus
                       type='email'
-                      value={user.email}
+                      defaultValue={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </Form.Group>
@@ -105,7 +136,7 @@ const ManageAccount = (props) => {
                     <Form.Label>Username</Form.Label>
                     <Form.Control
                       type='username'
-                      value={user.username}
+                      defaultValue={username}
                       onChange={(e) => setUsername(e.target.value)}
                     />
                   </Form.Group>
@@ -114,9 +145,9 @@ const ManageAccount = (props) => {
                     variant='dark'
                     size='lg'
                     type='submit'
-                    disabled={!validateForm()}
+                    // disabled={!validateForm()}
                   >
-                    Login
+                    Update Information
                   </Button>
                 </Form>
               </Card>
