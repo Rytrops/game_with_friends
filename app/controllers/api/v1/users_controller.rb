@@ -5,7 +5,7 @@ module Api
       # before_action :authenticate_api_v1_user! #, except: [:index, :show]
       # before_action :correct_user_to_edit_library, only: [:add_new_game, :remove_game_from_user_library]
       before_action :authenticate_user
-      before_action :correct_user_to_edit_profile, only: [:edit, :update, :destroy]
+      before_action :correct_user_to_edit_profile, only: [:edit, :update, :destroy, :link_steam_account_to_user]
       # skip_before_action :verify_authenticity_token
 
       def index
@@ -88,19 +88,38 @@ module Api
       end
 
       def link_steam_account_to_user
+          # params = link_steam_account_to_user_params
+        # user = current_user
+
+        # user.steam_url = params[:steam_url]
+
+        # if user.save
+        #   redirect_to user_path(user)
+        # else
+        #   redirect_to user_path(user)
+        # end
+
         params = link_steam_account_to_user_params
         user = current_user
-
+        return render json: {error: 'A Steam Account Is Already Linked To This Profile.'}, status: 422 if !user.steam_url.nil?
         user.steam_url = params[:steam_url]
 
+
         if user.save
-          redirect_to user_path(user)
+          render json: UserSerializer.new(user, options), status: 200
         else
-          redirect_to user_path(user)
+          render json: { error: user.errors.messages }, status: 422
         end
+
       end
       
       private
+
+      def current_user
+        token, _options = token_and_options(request)
+        @current_user ||= User.find(AuthenticationTokenService.decode_token(token).to_i)
+
+      end
 
       def authenticate_user
         token, _options = token_and_options(request)
@@ -115,8 +134,9 @@ module Api
       end
 
       def correct_user_to_edit_profile
+        
         token, _options = token_and_options(request)
-        render json: {error: 'Unauthorized Access'}, status: 401  if AuthenticationTokenService.decode_token(token) != params[:id]
+        render json: {error: 'Unauthorized Access'}, status: 401  if AuthenticationTokenService.decode_token(token) != params[:user_id]
       end
 
       def correct_user_to_edit_library
@@ -137,7 +157,7 @@ module Api
       end
 
       def link_steam_account_to_user_params
-        params.permit(:steam_url, :user_id)
+        params.require(:user).permit(:steam_url)
       end
 
       def is_current_user?(user)

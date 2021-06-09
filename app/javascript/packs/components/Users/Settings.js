@@ -24,7 +24,12 @@ const Settings = () => {
               <Button variant='secondary' size='sm' block>
                 Add Game to Library
               </Button>
-              <Button variant='secondary' size='sm' block>
+              <Button
+                href={`/${user.id}/link-steam-account`}
+                variant='secondary'
+                size='sm'
+                block
+              >
                 Link Steam Account
               </Button>
               <Button variant='secondary' size='sm' block>

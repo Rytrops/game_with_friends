@@ -12,14 +12,15 @@ import {
 } from 'react-bootstrap';
 
 const ManageAccount = (props) => {
-  const user = JSON.parse(localStorage.getItem('USER'));
-  const userPage = props.match.params.id;
-  const history = useHistory();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [loaded, setLoaded] = useState(false);
+
+  const user = JSON.parse(localStorage.getItem('USER'));
+  const userPage = props.match.params.id;
+  const history = useHistory();
 
   function validateForm() {
     return email.length > 0 && password.length > 0 && username.length > 0;

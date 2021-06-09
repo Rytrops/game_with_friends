@@ -18,6 +18,7 @@ class User < ApplicationRecord
 
   def correct_steam_url
     if !(self.steam_url.nil?) && self.steam_id.nil? && self.steam_vanity.nil?
+      debugger
       if vanity_url?
         begin
         extrapolate_steam_vanity
@@ -31,6 +32,8 @@ class User < ApplicationRecord
       else
         steam_url_error_message
       end
+    else
+      steam_url_error_message
     end
   end
 
