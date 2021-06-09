@@ -8,8 +8,8 @@ class User < ApplicationRecord
   has_many :users_videogames
   has_many :videogames, through: :users_videogames
 
-  validates :username, presence: true
-  validates :email, presence: true
+  validates :username, presence: true, uniqueness: { case_sensitive: false }
+  validates :email, presence: true, uniqueness: { case_sensitive: false }
   # not being called as part of db:seed
   validate :correct_steam_url
   
