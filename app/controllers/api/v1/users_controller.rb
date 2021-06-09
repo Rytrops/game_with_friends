@@ -102,7 +102,7 @@ module Api
         params = link_steam_account_to_user_params
         user = current_user
         return render json: {error: 'A Steam Account Is Already Linked To This Profile.'}, status: 422 if !user.steam_url.nil?
-        user.steam_url = params[:steam_url]
+        user.steam_url = params[:steamUrl]
 
 
         if user.save
@@ -157,7 +157,7 @@ module Api
       end
 
       def link_steam_account_to_user_params
-        params.require(:user).permit(:steam_url)
+        params.require(:user).permit(:steamUrl)
       end
 
       def is_current_user?(user)

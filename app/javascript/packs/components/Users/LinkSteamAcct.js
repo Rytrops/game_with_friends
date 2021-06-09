@@ -63,7 +63,8 @@ const LinkSteamAcct = (props) => {
         window.location.reload();
       })
       .catch((error) => {
-        setErrorMessage(error.response.data[0].error.message);
+        console.log(error.response.data.error);
+        setErrorMessage(error.response.data.error);
       });
   }
   const checkErrorMessage = () => {
@@ -84,13 +85,21 @@ const LinkSteamAcct = (props) => {
         onClose={() => setErrorMessage('')}
         dismissible
       >
-        {errorMessage}
+        {Object.values(errorMessage)}
+        {/* {Object.values(errorMessage).map((key) => {
+          return (
+            <dl key={key}>
+              <dt> {key}</dt>
+              <dd> {errorMessage[key]} </dd>
+            </dl>
+          );
+        })} */}
       </Alert>
     );
   };
   return (
     <>
-      {/* <div>{errorMessage !== '' && alertError()} </div> */}
+      <div>{errorMessage !== '' && alertError()} </div>
       <Container className='border-light'>
         <Row className='mx-auto'>
           <Col className='col-5 mx-auto mt-5 h-100'>

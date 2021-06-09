@@ -85,10 +85,14 @@ const Users = (props) => {
                 </Card.Title>
                 <Card.Body>
                   <h6>Username: {user.attributes.username}</h6>
-                  <h6>Steam Profile: </h6>
-                  <a href={`${user.attributes.steam_url}`} target='blank'>
-                    View my Steam Profile
-                  </a>
+                  {user.attributes.steam_url && (
+                    <div>
+                      <h6>Steam Profile: </h6>
+                      <a href={`${user.attributes.steam_url}`} target='blank'>
+                        View my Steam Profile
+                      </a>
+                    </div>
+                  )}
 
                   <h6>Email: {user.attributes.email}</h6>
                 </Card.Body>

@@ -25,7 +25,6 @@ export default function Login(props) {
         window.location.reload();
       })
       .catch((error) => {
-        console.log(error.response);
         setErrorMessage(error.response.data[0].error.message);
       });
   }
