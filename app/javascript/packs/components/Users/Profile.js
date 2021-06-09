@@ -1,7 +1,15 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Row, Col, Card, Table, Alert } from 'react-bootstrap';
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Table,
+  Alert,
+  Overflow,
+} from 'react-bootstrap';
 import { useHistory, Redirect } from 'react-router-dom';
 import Settings from './Settings';
 const Users = (props) => {
@@ -98,30 +106,38 @@ const Users = (props) => {
                 </Card.Body>
               </Card>
             </Col>
-            <Col className='col-6'>
-              <Table className='text-light'>
-                <thead>
-                  <tr>
-                    <th>Game Name</th>
-                    {/* <th>Number of Players</th> */}
-                    <th>Developer</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {loaded &&
-                    userVideogames.map((game) => {
-                      const { game_name, number_of_players, developer } =
-                        game.attributes;
-                      return (
-                        <tr key={game.id}>
-                          <td> {game_name}</td>
-                          {/* <td> {number_of_players}</td> */}
-                          <td> {developer}</td>
-                        </tr>
-                      );
-                    })}
-                </tbody>
-              </Table>
+            <Col className='col-6' style={{ height: 400 }}>
+              <div style={{ height: 400, overflow: scroll }}>
+                help
+                <Table
+                  scrollable='true'
+                  className='text-light scrollable'
+                  bordered='true'
+                  style={{ color: 'red' }}
+                >
+                  <thead>
+                    <tr>
+                      <th>Game Name</th>
+                      {/* <th>Number of Players</th> */}
+                      <th>Developer</th>
+                    </tr>
+                  </thead>
+                  <tbody style={{ height: 400 }}>
+                    {loaded &&
+                      userVideogames.map((game) => {
+                        const { game_name, number_of_players, developer } =
+                          game.attributes;
+                        return (
+                          <tr key={game.id}>
+                            <td> {game_name}</td>
+                            {/* <td> {number_of_players}</td> */}
+                            <td> {developer}</td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </Table>
+              </div>
             </Col>
             <Col>
               <Settings />

@@ -5,7 +5,7 @@ module Api
       # before_action :authenticate_api_v1_user! #, except: [:index, :show]
       # before_action :correct_user_to_edit_library, only: [:add_new_game, :remove_game_from_user_library]
       before_action :authenticate_user
-      before_action :correct_user_to_edit_profile, only: [:edit, :update, :destroy, :link_steam_account_to_user]
+      before_action :correct_user_to_edit_profile, only: [:edit, :update, :destroy, :link_steam_account_to_user, :import_steam_library]
       # skip_before_action :verify_authenticity_token
 
       def index
@@ -32,10 +32,6 @@ module Api
       end
 
       def destroy
-        # @user = current_user
-        # @user.destroy
-        # redirect_to root_path
-
         user = User.find(params[:id])
         if user.destroy
           head :no_content
@@ -102,8 +98,8 @@ module Api
         params = link_steam_account_to_user_params
         user = current_user
         return render json: {error: 'A Steam Account Is Already Linked To This Profile.'}, status: 422 if !user.steam_url.nil?
-        user.steam_url = params[:steamUrl]
 
+        user.steam_url = params[:steamUrl]
 
         if user.save
           render json: UserSerializer.new(user, options), status: 200
@@ -111,6 +107,12 @@ module Api
           render json: { error: user.errors.messages }, status: 422
         end
 
+      end
+
+      def import_steam_library
+        user = current_user
+
+        user.import_steam_library
       end
       
       private
