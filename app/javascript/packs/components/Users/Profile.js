@@ -16,6 +16,7 @@ const Users = (props) => {
   const [user, setUser] = useState([]);
   const [userVideogames, setUserVideogames] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const history = useHistory();
 
   const id = props.match.params.id;
 
@@ -41,18 +42,11 @@ const Users = (props) => {
   const loggedIn = () => {
     const user = JSON.parse(localStorage.getItem('USER'));
     if (user === null) {
-      return (
-        <>
-          <Redirect
-            to={{
-              pathname: '/sign-in',
-              state: {
-                errorNotification: 'You must be logged in to access this page',
-              },
-            }}
-          />
-        </>
-      );
+      return history.push('/sign-in', {
+        state: {
+          errorNotification: 'You must be logged in to access this page',
+        },
+      });
     }
   };
 

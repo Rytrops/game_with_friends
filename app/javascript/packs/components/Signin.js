@@ -14,10 +14,9 @@ export default function Login(props) {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const history = useHistory();
-
   const checkErrorMessage = () => {
     if (props.location.state) {
-      setErrorMessage(Object.values(props.location.state));
+      setErrorMessage(Object.values(props.location.state.state));
     }
   };
 
