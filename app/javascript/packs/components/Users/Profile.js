@@ -12,6 +12,8 @@ import {
 } from 'react-bootstrap';
 import { useHistory, Redirect } from 'react-router-dom';
 import Settings from './Settings';
+import TableScrollbar from 'react-table-scrollbar';
+
 const Users = (props) => {
   const [user, setUser] = useState([]);
   const [userVideogames, setUserVideogames] = useState([]);
@@ -75,77 +77,78 @@ const Users = (props) => {
   };
 
   return (
-    <div className='bg-secondary vh-100'>
-      {loggedIn()}
-      <div>{successMessage && alertSuccess()}</div>
-      {loaded && (
-        <Container className='vh-100'>
-          <Row className='justify-content-center'>
-            <Col className=' col-auto text-center border border-dark rounded bg-light mt-5 text-secondary mb-5'>
-              <h1> Welcome to {user.attributes.username}'s profile</h1>
-            </Col>
-          </Row>
-          <Row>
-            <Col className='col-3'>
-              <Card className='bg-light border-black '>
-                <Card.Title className='text-center text-secondary'>
-                  Contact Info:
-                </Card.Title>
-                <Card.Body>
-                  <h6>Username: {user.attributes.username}</h6>
-                  {user.attributes.steam_url && (
-                    <div>
-                      <h6>Steam Profile: </h6>
-                      <a href={`${user.attributes.steam_url}`} target='blank'>
-                        View my Steam Profile
-                      </a>
-                    </div>
-                  )}
+    <>
+      <div className='bg-secondary vh-100'>
+        {loggedIn()}
+        <div>{successMessage && alertSuccess()}</div>
+        {loaded && (
+          <Container>
+            <Row className='justify-content-center'>
+              <Col className=' col-auto text-center border border-dark rounded bg-light mt-5 text-secondary mb-5'>
+                <h1> Welcome to {user.attributes.username}'s profile</h1>
+              </Col>
+            </Row>
+            <Row>
+              <Col className='col-3'>
+                <Card className='bg-light border-black '>
+                  <Card.Title className='text-center text-secondary'>
+                    Contact Info:
+                  </Card.Title>
+                  <Card.Body>
+                    <h6>Username: {user.attributes.username}</h6>
+                    {user.attributes.steam_url && (
+                      <div>
+                        <h6>Steam Profile: </h6>
+                        <a href={`${user.attributes.steam_url}`} target='blank'>
+                          View my Steam Profile
+                        </a>
+                      </div>
+                    )}
 
-                  <h6>Email: {user.attributes.email}</h6>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col className='col-6' style={{ height: 400 }}>
-              <div style={{ height: 400, overflow: scroll }}>
-                help
-                <Table
-                  scrollable='true'
-                  className='text-light scrollable'
-                  bordered='true'
-                  style={{ color: 'red' }}
-                >
-                  <thead>
-                    <tr>
-                      <th>Game Name</th>
-                      {/* <th>Number of Players</th> */}
-                      <th>Developer</th>
-                    </tr>
-                  </thead>
-                  <tbody style={{ height: 400 }}>
-                    {loaded &&
-                      userVideogames.map((game) => {
-                        const { game_name, number_of_players, developer } =
-                          game.attributes;
-                        return (
-                          <tr key={game.id}>
-                            <td> {game_name}</td>
-                            {/* <td> {number_of_players}</td> */}
-                            <td> {developer}</td>
-                          </tr>
-                        );
-                      })}
-                  </tbody>
-                </Table>
-              </div>
-            </Col>
-            <Col>
-              <Settings />
-            </Col>
-          </Row>
-        </Container>
-      )}
-    </div>
+                    <h6>Email: {user.attributes.email}</h6>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col className='col-6'>
+                <TableScrollbar rows={7}>
+                  <Table
+                    className='text-light text-center '
+                    bordered='true'
+                    variant='dark'
+                  >
+                    <thead>
+                      <tr>
+                        <th>Game Name</th>
+                        {/* <th>Number of Players</th> */}
+                        {/* <th>Developer</th> */}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {loaded &&
+                        userVideogames.map((game) => {
+                          const { game_name, number_of_players, developer } =
+                            game.attributes;
+                          return (
+                            <tr key={game.id}>
+                              <td> {game_name}</td>
+                              {/* <td> {number_of_players}</td> */}
+                              {/* <td> {developer}</td> */}
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </Table>
+                </TableScrollbar>
+              </Col>
+              <Col>
+                <Settings />
+              </Col>
+            </Row>
+          </Container>
+        )}
+      </div>
+      <div className='bg-secondary' style={{ height: 200 }}></div>
+    </>
   );
 };
 
