@@ -2,11 +2,8 @@ import React from 'react';
 import {
   Navbar,
   Nav,
-  Form,
-  Link,
   Button,
   NavDropdown,
-  Fragment,
   DropdownButton,
 } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';

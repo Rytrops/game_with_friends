@@ -3,11 +3,6 @@ import { Container, Button, Row, Col, Card, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import Alert from 'react-bootstrap/Alert';
-// import './Login.css';
-
-// const axios = axios.create({
-//   baseURL: 'http://localhost:3000/api/v1',
-// });
 
 export default function Login(props) {
   const [email, setEmail] = useState('');

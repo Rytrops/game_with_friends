@@ -145,7 +145,7 @@ const ManageAccount = (props) => {
                     variant='dark'
                     size='lg'
                     type='submit'
-                    // disabled={!validateForm()}
+                    disabled={!validateForm()}
                   >
                     Update Information
                   </Button>

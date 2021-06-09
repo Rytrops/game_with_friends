@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Button, Row, Col, Card } from 'react-bootstrap';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { BrowserRouter as Link } from 'react-router-dom';
 
 const Home = (props) => {
   const [errorMessage, setErrorMessage] = useState('');

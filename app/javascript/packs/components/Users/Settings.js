@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  Container,
-  Button,
-  Row,
-  Col,
-  Card,
-  Table,
-  Alert,
-} from 'react-bootstrap';
+import { Container, Button, Row, Col, Card } from 'react-bootstrap';
 
 const Settings = () => {
   const user = JSON.parse(localStorage.getItem('USER'));
