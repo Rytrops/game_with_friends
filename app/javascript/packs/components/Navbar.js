@@ -38,15 +38,8 @@ const Navibar = () => {
                 <NavDropdown.Item href={`/${user.id}/profile`}>
                   My Profile
                 </NavDropdown.Item>
-                <NavDropdown.Item href='#action/3.2'>
-                  Another action
-                </NavDropdown.Item>
-                <NavDropdown.Item href='#action/3.3'>
-                  Something
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href='#action/3.4'>
-                  Separated link
+                <NavDropdown.Item href={`/${user.id}/settings`}>
+                  Account Settings
                 </NavDropdown.Item>
               </DropdownButton>
             </div>
