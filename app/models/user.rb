@@ -10,14 +10,13 @@ class User < ApplicationRecord
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
-  validates :steam_url, uniqueness: { case_sensitive: false }
-  # not being called as part of db:seed
+  validates :steam_url,  uniqueness: { case_sensitive: false }, allow_blank: true
   validate :correct_steam_url
 
   def import_steam_library
     if steam_url.nil?
       steam_url_error_message
-      render json: { error: user.errors.messages }, status: 422
+      return false
     else
       Steam.apikey = ENV["STEAM_API_KEY"]
       imported_games =  Steam::Player.owned_games(steam_id, params: {include_appinfo: 1})
@@ -31,7 +30,6 @@ class User < ApplicationRecord
             self.videogames << new_game
           end
         elsif self.videogames.find_by(game_name: game["name"]).nil?
-          debugger
           self.videogames << videogame
         end
       end
@@ -57,7 +55,6 @@ class User < ApplicationRecord
       else
         steam_url_error_message
       end
-      
     end
   end
 

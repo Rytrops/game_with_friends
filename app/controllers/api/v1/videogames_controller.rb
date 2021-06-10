@@ -8,7 +8,7 @@ module Api
       def index
         # @videogames = Videogame.all
         videogames = Videogame.all
-        render json: VideogameSerializer.new(videogames).serializable_hash.to_json
+        render json: VideogameSerializer.new(videogames)
       end
 
       # GET /videogames/1 or /videogames/1.json

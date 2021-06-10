@@ -1,15 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Table,
-  Alert,
-  Overflow,
-} from 'react-bootstrap';
+import { Container, Row, Col, Card, Table, Alert } from 'react-bootstrap';
 import { useHistory, Redirect } from 'react-router-dom';
 import Settings from './Settings';
 import TableScrollbar from 'react-table-scrollbar';
@@ -19,8 +11,10 @@ const Users = (props) => {
   const [userVideogames, setUserVideogames] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
-  const history = useHistory();
+  const [isAuthorizedUser, setIsAuthorizedUser] = useState(false);
 
+  const history = useHistory();
+  const loggedInUser = JSON.parse(localStorage.getItem('USER'));
   const id = props.match.params.id;
   const gamesArray = [];
 
@@ -88,11 +82,19 @@ const Users = (props) => {
     buildGamesArray();
   }, []);
 
+  const authorizedUser = () => {
+    if (loggedInUser.id == id && !isAuthorizedUser) {
+      setIsAuthorizedUser(true);
+    }
+  };
+
   return (
     <>
       <div className='bg-secondary vh-100'>
-        {buildGamesArray()}
         {loggedIn()}
+        {loaded && authorizedUser()}
+        {loaded && buildGamesArray()}
+
         <div>{successMessage && alertSuccess()}</div>
         {loaded && (
           <Container>
@@ -151,7 +153,7 @@ const Users = (props) => {
                 </TableScrollbar>
               </Col>
               <Col>
-                <Settings />
+                <Settings isAuthorizedUser={isAuthorizedUser} />
               </Col>
             </Row>
           </Container>

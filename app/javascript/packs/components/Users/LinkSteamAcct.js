@@ -86,14 +86,6 @@ const LinkSteamAcct = (props) => {
         dismissible
       >
         {Object.values(errorMessage)}
-        {/* {Object.values(errorMessage).map((key) => {
-          return (
-            <dl key={key}>
-              <dt> {key}</dt>
-              <dd> {errorMessage[key]} </dd>
-            </dl>
-          );
-        })} */}
       </Alert>
     );
   };
@@ -125,7 +117,7 @@ const LinkSteamAcct = (props) => {
                   type='submit'
                   disabled={!validateForm()}
                 >
-                  Login
+                  Link Steam Account
                 </Button>
               </Form>
             </Card>

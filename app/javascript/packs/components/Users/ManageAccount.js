@@ -72,8 +72,6 @@ const ManageAccount = (props) => {
         },
       });
     } else {
-      console.log(user.attributes);
-      console.log(user);
       setUsername(user.username);
       setEmail(user.email);
       setLoaded(true);
