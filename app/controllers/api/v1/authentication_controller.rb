@@ -42,27 +42,3 @@ module Api
     end
   end
 end
-
-
-    #   rescue_from ActionController::ParameterMissing, with: :parameter_missing
-
-    #   def create
-    #     p params.require.(:username).inspect
-    #     p params.require.(:password).inspect
-    #     p params.require.(:email).inspect
-
-
-
-    #     render json: {token: '123' }, status: :created
-
-    #   end
-
-    #   private
-    #   def parameter_missing
-    #     render json: { error: e.message }, statues: :unprocessable_entity
-    #   end
-
-    #   def user_params
-
-    #   end
-    # end
