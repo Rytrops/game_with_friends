@@ -1,9 +1,6 @@
 module Api
   module V1
     class AuthenticationController < ApplicationController
-
-          #I think i need this part but im not sure why
-      # skip_before_action :verify_authenticity_token # skip CSRF check for APIs
       respond_to :json
 
       def create
@@ -20,8 +17,6 @@ module Api
       end
 
       def destroy
-        # user = User.find_by(email: sign_in_params[:email])
-        # sign_out(user)
         session.clear
         render json: {
           status: 200,

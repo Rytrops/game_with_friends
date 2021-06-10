@@ -2,11 +2,8 @@ module Api
   module V1
     class UsersController < ApplicationController
       include ActionController::HttpAuthentication::Token
-      # before_action :authenticate_api_v1_user! #, except: [:index, :show]
-      # before_action :correct_user_to_edit_library, only: [:add_new_game, :remove_game_from_user_library]
       before_action :authenticate_user
       before_action :correct_user_to_edit_profile, only: [:edit, :update, :destroy, :link_steam_account_to_user, :import_steam_library, :create_and_save_game_to_user_library, :remove_game_from_user_library]
-      # skip_before_action :verify_authenticity_token
 
       def index
         users = User.all
@@ -122,11 +119,6 @@ module Api
         token, _options = token_and_options(request)
         render json: {error: 'Unauthorized Access'}, status: 401  if AuthenticationTokenService.decode_token(token) != params[:user_id]
       end
-
-      # def correct_user_to_edit_library
-      #   user_library_to_edit = User.find(params[:user_id])
-      #   redirect_to user_path(user), notice: "Not Authorized to Edit This Profile" if !is_current_user?(user_library_to_edit) 
-      # end
 
       def user_params
         params.require(:user).permit(:username, :email, :steam_id, :password)
