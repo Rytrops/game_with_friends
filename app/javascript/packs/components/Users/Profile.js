@@ -22,6 +22,7 @@ const Users = (props) => {
   const history = useHistory();
 
   const id = props.match.params.id;
+  const gamesArray = [];
 
   const authAxios = axios.create({
     headers: {
@@ -35,6 +36,7 @@ const Users = (props) => {
       .then((resp) => {
         setUser(resp.data.data);
         setUserVideogames(resp.data.included);
+        buildGamesArray();
         setLoaded(true);
       })
       .catch((error) => {
@@ -75,10 +77,21 @@ const Users = (props) => {
       </Alert>
     );
   };
+  const buildGamesArray = () => {
+    userVideogames.map((game) => {
+      const { game_name, number_of_players, developer } = game.attributes;
+      return gamesArray.push(game_name);
+    });
+  };
+
+  useEffect(() => {
+    buildGamesArray();
+  }, []);
 
   return (
     <>
       <div className='bg-secondary vh-100'>
+        {buildGamesArray()}
         {loggedIn()}
         <div>{successMessage && alertSuccess()}</div>
         {loaded && (
@@ -124,18 +137,15 @@ const Users = (props) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {loaded &&
-                        userVideogames.map((game) => {
-                          const { game_name, number_of_players, developer } =
-                            game.attributes;
-                          return (
-                            <tr key={game.id}>
-                              <td> {game_name}</td>
-                              {/* <td> {number_of_players}</td> */}
-                              {/* <td> {developer}</td> */}
-                            </tr>
-                          );
-                        })}
+                      {gamesArray.sort().map((game_name) => {
+                        return (
+                          <tr key={game_name}>
+                            <td> {game_name}</td>
+                            {/* <td> {number_of_players}</td> */}
+                            {/* <td> {developer}</td> */}
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </Table>
                 </TableScrollbar>
