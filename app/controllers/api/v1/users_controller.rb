@@ -5,7 +5,7 @@ module Api
       # before_action :authenticate_api_v1_user! #, except: [:index, :show]
       # before_action :correct_user_to_edit_library, only: [:add_new_game, :remove_game_from_user_library]
       before_action :authenticate_user
-      before_action :correct_user_to_edit_profile, only: [:edit, :update, :destroy, :link_steam_account_to_user, :import_steam_library, :create_and_save_game_to_user_library]
+      before_action :correct_user_to_edit_profile, only: [:edit, :update, :destroy, :link_steam_account_to_user, :import_steam_library, :create_and_save_game_to_user_library, :remove_game_from_user_library]
       # skip_before_action :verify_authenticity_token
 
       def index
@@ -47,12 +47,6 @@ module Api
       end
 
       def save_new_game_to_user
-        # user = User.find(save_new_game_to_user_params[:user_id])
-        # game = Videogame.find(save_new_game_to_user_params[:game_id])
-        # user.videogames << game
-
-        # redirect_to user_path(user)
-
         user = User.find(save_new_game_to_user_params[:user_id])
         game = Videogame.find(save_new_game_to_user_params[:game_id])
         user.videogames << game
@@ -60,11 +54,10 @@ module Api
       end
 
       def remove_game_from_user_library
-        user = User.find(save_new_game_to_user_params[:user_id])
-        game = Videogame.find(save_new_game_to_user_params[:game_id])
+        user = current_user
+        game = Videogame.find_by(save_new_game_to_user_params[:game_name])
         user.videogames.delete(game)
-
-        redirect_to user_path(user)
+        head :no_content
       end
 
       def create_and_save_game_to_user_library
@@ -140,7 +133,7 @@ module Api
       end
 
       def save_new_game_to_user_params
-        params.permit(:game_id, :user_id)
+        params.permit(:game_name, :user_id)
       end
 
       def create_and_save_game_to_user_library_params

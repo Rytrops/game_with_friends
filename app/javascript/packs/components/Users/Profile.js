@@ -1,7 +1,15 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Row, Col, Card, Table, Alert } from 'react-bootstrap';
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Table,
+  Alert,
+  Button,
+} from 'react-bootstrap';
 import { useHistory, Redirect } from 'react-router-dom';
 import Settings from './Settings';
 import TableScrollbar from 'react-table-scrollbar';
@@ -134,8 +142,6 @@ const Users = (props) => {
                     <thead>
                       <tr>
                         <th>Game Name</th>
-                        {/* <th>Number of Players</th> */}
-                        {/* <th>Developer</th> */}
                       </tr>
                     </thead>
                     <tbody>
@@ -143,8 +149,6 @@ const Users = (props) => {
                         return (
                           <tr key={game_name}>
                             <td> {game_name}</td>
-                            {/* <td> {number_of_players}</td> */}
-                            {/* <td> {developer}</td> */}
                           </tr>
                         );
                       })}

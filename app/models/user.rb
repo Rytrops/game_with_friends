@@ -25,8 +25,6 @@ class User < ApplicationRecord
         if videogame.nil?
           new_game = Videogame.new(game_name: game["name"])
           if new_game.save
-            debugger
-            # new_game.save
             self.videogames << new_game
           end
         elsif self.videogames.find_by(game_name: game["name"]).nil?

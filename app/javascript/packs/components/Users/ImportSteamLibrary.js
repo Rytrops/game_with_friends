@@ -9,11 +9,14 @@ import {
   Form,
   Alert,
 } from 'react-bootstrap';
+import { useHistory, Redirect } from 'react-router-dom';
 
-const ImportSteamLibrary = () => {
+const ImportSteamLibrary = (props) => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const user = JSON.parse(localStorage.getItem('USER'));
+  const history = useHistory();
+  const id = props.match.params.id;
 
   const authAxios = axios.create({
     headers: {
@@ -26,7 +29,7 @@ const ImportSteamLibrary = () => {
     authAxios
       .post(`/api/v1/users/${user.id}/import_steam_library`)
       .then((resp) => {
-        history.push(`/`, {
+        history.push(`/${id}/profile`, {
           state: {
             successNotification:
               'Importing Steam library. This may take a few moments.',
@@ -35,10 +38,9 @@ const ImportSteamLibrary = () => {
         window.location.reload();
       })
       .catch((error) => {
-        setErrorMessage(error.response.data.error);
+        setErrorMessage(error.response);
       });
   }
-  console.log(user);
   return (
     <>
       {/* <div>{errorMessage !== '' && alertError()} </div> */}
