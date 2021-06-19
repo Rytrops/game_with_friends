@@ -8,9 +8,32 @@ class User < ApplicationRecord
   has_many :users_videogames
   has_many :videogames, through: :users_videogames
 
-  validates :username, presence: true
-  validates :email, presence: true
+  validates :username, presence: true, uniqueness: { case_sensitive: false }
+  validates :email, presence: true, uniqueness: { case_sensitive: false }
+  validates :steam_url,  uniqueness: { case_sensitive: false }, allow_blank: true
   validate :correct_steam_url
+
+  def import_steam_library
+    if steam_url.nil?
+      steam_url_error_message
+      return false
+    else
+      Steam.apikey = ENV["STEAM_API_KEY"]
+      imported_games =  Steam::Player.owned_games(steam_id, params: {include_appinfo: 1})
+      imported_games["games"].each do |game|
+        videogame = Videogame.find_by(game_name: game["name"])
+        if videogame.nil?
+          new_game = Videogame.new(game_name: game["name"])
+          if new_game.save
+            self.videogames << new_game
+          end
+        elsif self.videogames.find_by(game_name: game["name"]).nil?
+          self.videogames << videogame
+        end
+      end
+    end
+
+  end
   
 
   private 
@@ -65,7 +88,7 @@ class User < ApplicationRecord
   end
 
   def steam_url_error_message
-    errors.add(:steam_url, 'Invalid Steam Profile URL')
+    errors.add(:steam_url, 'Invalid steam profile URL')
   end
 
 end
